@@ -20,13 +20,6 @@ tasks.register<JavaExec>("generate_project_classes") {
     classpath = sourceSets["main"].runtimeClasspath
 }
 
-tasks.named("clean") {
-    doFirst {
-        val srcPath = "$projectDir/jni/build/"
-        project.delete(files(srcPath))
-    }
-}
-
 cmake {
     generator.set("MinGW Makefiles")
 

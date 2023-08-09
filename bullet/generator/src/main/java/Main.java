@@ -23,12 +23,12 @@ public class Main {
 
         IDLReader idlReader = IDLReader.readIDL(idlPath, cppSourceDir);
 
-//        buildClassOnly(idlReader, basePackage, baseJavaDir);
-        buildBulletCPP(idlReader, libName, basePackage, baseJavaDir, cppSourceDir);
+//        generateClassOnly(idlReader, basePackage, baseJavaDir);
+        generateAndBuildCPP(idlReader, libName, basePackage, baseJavaDir, cppSourceDir);
         generateTeaVM(idlReader, libName, basePackage, baseJavaDir);
     }
 
-    private static void buildClassOnly(
+    private static void generateClassOnly(
             IDLReader idlReader,
             String basePackage,
             String baseJavaDir
@@ -39,7 +39,7 @@ public class Main {
         JParser.generate(idlParser, baseJavaDir, genDir);
     }
 
-    private static void buildBulletCPP(
+    private static void generateAndBuildCPP(
             IDLReader idlReader,
             String libName,
             String basePackage,
@@ -58,7 +58,12 @@ public class Main {
         String [] flags = new String[1];
         flags[0] = " -DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2";
         CPPBuildHelper.DEBUG_BUILD = true;
-        CPPBuildHelper.build(libName, libBuildPath, libsDir, flags);
+        CPPBuildHelper.Config config = new CPPBuildHelper.Config();
+        config.libName = libName;
+        config.buildPath = libBuildPath;
+        config.libsDir = libsDir;
+        config.cppFlags = flags;
+        CPPBuildHelper.build(config);
     }
 
     public static void generateTeaVM(IDLReader idlReader, String libName, String basePackage, String baseJavaDir) throws Exception {

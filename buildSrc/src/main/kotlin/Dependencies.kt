@@ -1,20 +1,12 @@
 object LibExt {
     const val groupId = "com.github.xpenatan.gdx-bullet"
-    val libVersion: String = getVersion("1.0.0", "b7")
+    val libVersion: String = getVersion("1.0.0", "b1")
 
     const val gdxVersion = "1.12.0"
     const val teaVMVersion = "0.9.0-dev-7"
 
     const val jParserVersion = "1.0.0-SNAPSHOT"
-    const val gdxTeavmVersion = "1.0.0-SNAPSHOT"
-
-    const val gdxImGuiVersion = "1.0.0-SNAPSHOT"
-    const val gdxFrameViewportVersion = "1.0.0-SNAPSHOT"
-
-    const val reflectionVersion = "0.10.2"
-    const val jettyVersion = "11.0.13"
-
-    const val aiVersion = "1.8.2"
+    const val gdxTeaVMVersion = "1.0.0-SNAPSHOT"
 }
 
 private fun getVersion(releaseVersion: String, suffix: String = ""): String {
@@ -23,6 +15,6 @@ private fun getVersion(releaseVersion: String, suffix: String = ""): String {
     if(isRelease != null && isRelease.toBoolean()) {
         libVersion = releaseVersion + if(suffix.isNotEmpty()) "-${suffix}" else ""
     }
-    System.out.println("Gdx-teaVM Version: " + libVersion)
+    System.out.println("Lib Version: " + libVersion)
     return libVersion
 }
