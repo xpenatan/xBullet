@@ -19,7 +19,7 @@ public class Main {
         String libName = "bullet";
         String idlPath = "src\\main\\cpp\\bullet.idl";
         String baseJavaDir = new File(".").getAbsolutePath() + "./base/src/main/java";
-        String cppSourceDir = new File("./src/main/cpp/bullet/src/").getCanonicalPath();
+        String cppSourceDir = new File("./build/bullet/bullet/src/").getCanonicalPath();
 
         IDLReader idlReader = IDLReader.readIDL(idlPath, cppSourceDir);
 

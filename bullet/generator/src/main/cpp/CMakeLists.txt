@@ -10,7 +10,6 @@ set(BULLET_HEADER_FILE ${CMAKE_CURRENT_SOURCE_DIR}/bullet.h)
 set(BULLET_IDL_FILE ${CMAKE_CURRENT_SOURCE_DIR}/bullet.idl)
 set(BULLET_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bullet/src)
 
-
 set(BULLET_TARGETS BulletCollision BulletDynamics BulletSoftBody LinearMath)
 foreach(_TARGET ${BULLET_TARGETS})
   list(APPEND BULLET_LIBS $<TARGET_FILE:${_TARGET}>)
