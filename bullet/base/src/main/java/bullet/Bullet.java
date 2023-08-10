@@ -8,6 +8,10 @@ import com.github.xpenatan.jparser.loader.JParserLibraryLoader;
 /*[-IDL_SKIP]*/
 public class Bullet {
 
+    /*[-C++;-NATIVE]
+       #include "LinearMath/btScalar.h"
+    */
+
     /*[-teaVM;-ADD]
         @org.teavm.jso.JSFunctor
         public interface OnInitFunction extends org.teavm.jso.JSObject {

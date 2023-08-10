@@ -63,6 +63,11 @@ public class Main {
         config.buildPath = libBuildPath;
         config.libsDir = libsDir;
         config.cppFlags = flags;
+        config.cppIncludes.add("src/BulletCollision/**/*.cpp");
+        config.cppIncludes.add("src/BulletDynamics/**/*.cpp");
+        config.cppIncludes.add("src/BulletSoftBody/**/*.cpp");
+        config.cppIncludes.add("src/LinearMath/**/*.cpp");
+        config.cppIncludes.add("src/JNIGlue.cpp");
         CPPBuildHelper.build(config);
     }
 
