@@ -1,6 +1,6 @@
 package bullet.linearmath;
 
-import com.github.xpenatan.jparser.base.IDLBase;
+import idl.IDLBase;
 
 public class btVector3 extends IDLBase {
 }

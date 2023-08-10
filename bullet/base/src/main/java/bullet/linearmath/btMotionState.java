@@ -1,7 +1,7 @@
 package bullet.linearmath;
 
 import com.badlogic.gdx.math.Matrix4;
-import com.github.xpenatan.jparser.base.IDLBase;
+import idl.IDLBase;
 
 public class btMotionState extends IDLBase {
 
