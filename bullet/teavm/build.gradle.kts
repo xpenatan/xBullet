@@ -9,7 +9,8 @@ dependencies {
 tasks.named("clean") {
     doFirst {
         val srcPath = "$projectDir/src/main/java"
-        project.delete(files(srcPath))
+        val jsPath = "$projectDir/src/main/resources/bullet.wasm.js"
+        project.delete(files(srcPath, jsPath))
     }
 }
 

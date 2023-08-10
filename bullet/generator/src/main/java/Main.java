@@ -58,16 +58,20 @@ public class Main {
         String [] flags = new String[1];
         flags[0] = " -DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2";
         CPPBuildHelper.DEBUG_BUILD = true;
+
         CPPBuildHelper.Config config = new CPPBuildHelper.Config();
         config.libName = libName;
         config.buildPath = libBuildPath;
         config.libsDir = libsDir;
         config.cppFlags = flags;
+
+        config.headerDir.add("src/");
         config.cppIncludes.add("src/BulletCollision/**/*.cpp");
         config.cppIncludes.add("src/BulletDynamics/**/*.cpp");
         config.cppIncludes.add("src/BulletSoftBody/**/*.cpp");
         config.cppIncludes.add("src/LinearMath/**/*.cpp");
         config.cppIncludes.add("src/JNIGlue.cpp");
+
         CPPBuildHelper.build(config);
     }
 

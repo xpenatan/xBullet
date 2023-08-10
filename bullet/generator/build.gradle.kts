@@ -16,7 +16,7 @@ dependencies {
     implementation("com.github.xpenatan.jParser:jParser-idl:${LibExt.jParserVersion}")
 }
 
-tasks.register<JavaExec>("generate_project_classes") {
+tasks.register<JavaExec>("build_project") {
     dependsOn("classes")
     group = "bullet"
     description = "Generate and build native project"
