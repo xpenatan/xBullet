@@ -17,9 +17,10 @@ public class Main {
     public static void generate() throws Exception {
         String basePackage = "bullet";
         String libName = "bullet";
-        String idlPath = "src\\main\\cpp\\bullet.idl";
+        String idlPath = "src\\main\\cpp\\idl\\bullet.idl";
         String baseJavaDir = new File(".").getAbsolutePath() + "./base/src/main/java";
-        String cppSourceDir = new File("./build/bullet/bullet/src/").getCanonicalPath();
+        String emscriptenDir = new File("./build/bullet/").getCanonicalPath();
+        String cppSourceDir = new File(emscriptenDir + "/bullet/src/").getCanonicalPath();
 
         IDLReader idlReader = IDLReader.readIDL(idlPath, cppSourceDir);
 

@@ -41,7 +41,7 @@ cmake {
 
 tasks.register("copy_emscripten_files") {
     copy {
-        from("$projectDir/src/main/cpp/")
+        from("$projectDir/src/main/cpp/idl")
         into("$sourceDestination/../")
     }
 }
