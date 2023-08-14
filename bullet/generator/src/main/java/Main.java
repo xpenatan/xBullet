@@ -1,3 +1,6 @@
+import com.github.xpenatan.jparser.builder.BuildConfig;
+import com.github.xpenatan.jparser.builder.JBuilder;
+import com.github.xpenatan.jparser.builder.targets.WindowsTarget;
 import com.github.xpenatan.jparser.core.JParser;
 import com.github.xpenatan.jparser.cpp.CppCodeParserV2;
 import com.github.xpenatan.jparser.cpp.CppGenerator;
@@ -73,7 +76,14 @@ public class Main {
         config.cppIncludes.add("src/LinearMath/**/*.cpp");
         config.cppIncludes.add("src/JNIGlue.cpp");
 
-        CPPBuildHelper.build(config);
+//        CPPBuildHelper.build(config);
+
+        BuildConfig buildConfig = new BuildConfig(cppDestinationPath, libBuildPath, libsDir, libName);
+        WindowsTarget windowsTarget = new WindowsTarget();
+        windowsTarget.headerDirs.add("src/");
+        windowsTarget.cppIncludes.add("src**/*.cpp");
+        windowsTarget.cppIncludes.add("src/JNIGlue.cpp");
+        JBuilder.build(buildConfig, windowsTarget);
     }
 
     public static void generateTeaVM(IDLReader idlReader, String libName, String basePackage, String baseJavaDir) throws Exception {
