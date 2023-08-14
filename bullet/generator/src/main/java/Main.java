@@ -81,11 +81,11 @@ public class Main {
         BuildConfig buildConfig = new BuildConfig(cppDestinationPath, libBuildPath, libsDir, libName);
         WindowsTarget windowsTarget = new WindowsTarget();
         windowsTarget.headerDirs.add("src/");
-        windowsTarget.cppIncludes.add("src/BulletCollision**/*.cpp");
-        windowsTarget.cppIncludes.add("src/BulletDynamics**/*.cpp");
-        windowsTarget.cppIncludes.add("src/BulletSoftBody**/*.cpp");
-        windowsTarget.cppIncludes.add("src/LinearMath**/*.cpp");
-        windowsTarget.cppIncludes.add("src/JNIGlue.cpp");
+        windowsTarget.cppIncludes.add("**/src/BulletCollision/**.cpp");
+        windowsTarget.cppIncludes.add("**/src/BulletDynamics/**.cpp");
+        windowsTarget.cppIncludes.add("**/src/BulletSoftBody/**.cpp");
+        windowsTarget.cppIncludes.add("**/src/LinearMath/**.cpp");
+        windowsTarget.cppIncludes.add("**/src/JNIGlue.cpp");
         windowsTarget.cppFlags += " -DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2";
         JBuilder.build(buildConfig, windowsTarget);
     }
