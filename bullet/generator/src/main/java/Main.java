@@ -54,8 +54,9 @@ public class Main {
         String genDir = "../core/src/main/java";
         String libBuildPath = new File("./build/c++/").getCanonicalPath();
         String cppDestinationPath = libBuildPath + "/src";
+        String libDestinationPath = cppDestinationPath + "/bullet";
 
-        CppGenerator cppGenerator = new NativeCPPGeneratorV2(cppSourceDir, cppDestinationPath);
+        CppGenerator cppGenerator = new NativeCPPGeneratorV2(cppSourceDir, libDestinationPath);
         CppCodeParserV2 cppParser = new CppCodeParserV2(cppGenerator, idlReader, basePackage);
         cppParser.generateClass = true;
         JParser.generate(cppParser, baseJavaDir, genDir);
@@ -80,13 +81,12 @@ public class Main {
 
         BuildConfig buildConfig = new BuildConfig(cppDestinationPath, libBuildPath, libsDir, libName);
         WindowsTarget windowsTarget = new WindowsTarget();
-        windowsTarget.headerDirs.add("src/");
-        windowsTarget.cppIncludes.add("**/src/BulletCollision/**.cpp");
-        windowsTarget.cppIncludes.add("**/src/BulletDynamics/**.cpp");
-        windowsTarget.cppIncludes.add("**/src/BulletSoftBody/**.cpp");
-        windowsTarget.cppIncludes.add("**/src/LinearMath/**.cpp");
-        windowsTarget.cppIncludes.add("**/src/JNIGlue.cpp");
-        windowsTarget.cppFlags += " -DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2";
+        windowsTarget.headerDirs.add("src/bullet/");
+        windowsTarget.cppIncludes.add("**/src/bullet/BulletCollision/**.cpp");
+        windowsTarget.cppIncludes.add("**/src/bullet/BulletDynamics/**.cpp");
+        windowsTarget.cppIncludes.add("**/src/bullet/BulletSoftBody/**.cpp");
+        windowsTarget.cppIncludes.add("**/src/bullet/LinearMath/**.cpp");
+        windowsTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
         JBuilder.build(buildConfig, windowsTarget);
     }
 
