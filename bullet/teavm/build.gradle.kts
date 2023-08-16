@@ -1,5 +1,11 @@
 val moduleName = "teavm"
 
+val emscriptenFile = "$projectDir/../generator/build/c++/libs/bullet.wasm.js"
+
+tasks.jar {
+    from(emscriptenFile)
+}
+
 dependencies {
     implementation("com.badlogicgames.gdx:gdx:${LibExt.gdxVersion}")
     implementation("com.github.xpenatan.jParser:loader-core:${LibExt.jParserVersion}")

@@ -39,7 +39,7 @@ public class Bullet {
     }
 
     /*[-teaVM;-REPLACE]
-        @org.teavm.jso.JSBody(params = { "onInitFunction" }, script = "window.BulletOnInit = onInitFunction;")
+        @org.teavm.jso.JSBody(params = { "onInitFunction" }, script = "window.bulletOnInit = onInitFunction;")
         private static native void setOnLoadInit(OnInitFunction onInitFunction);
     */
     /*[-C++;-REMOVE] */

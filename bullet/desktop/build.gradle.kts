@@ -1,6 +1,6 @@
 val moduleName = "desktop"
 
-val windowsFile = "$projectDir/../generator/build/c++/desktop/bullet64.dll"
+val windowsFile = "$projectDir/../generator/build/c++/libs/bullet64.dll"
 
 tasks.jar {
     from(windowsFile)

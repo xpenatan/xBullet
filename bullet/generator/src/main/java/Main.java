@@ -1,5 +1,7 @@
 import com.github.xpenatan.jparser.builder.BuildConfig;
+import com.github.xpenatan.jparser.builder.BuildTarget;
 import com.github.xpenatan.jparser.builder.JBuilder;
+import com.github.xpenatan.jparser.builder.targets.EmscriptenTarget;
 import com.github.xpenatan.jparser.builder.targets.WindowsTarget;
 import com.github.xpenatan.jparser.core.JParser;
 import com.github.xpenatan.jparser.cpp.CppCodeParserV2;
@@ -18,18 +20,8 @@ public class Main {
     }
 
     public static void generate() throws Exception {
-        String basePackage = "bullet";
-        String libName = "bullet";
-        String idlPath = "src\\main\\cpp\\idl\\bullet.idl";
-        String baseJavaDir = new File(".").getAbsolutePath() + "./base/src/main/java";
-        String emscriptenDir = new File("./build/bullet/").getCanonicalPath();
-        String cppSourceDir = new File(emscriptenDir + "/bullet/src/").getCanonicalPath();
-
-        IDLReader idlReader = IDLReader.readIDL(idlPath, cppSourceDir);
-
 //        generateClassOnly(idlReader, basePackage, baseJavaDir);
-        generateAndBuildCPP(idlReader, libName, basePackage, baseJavaDir, cppSourceDir);
-        generateTeaVM(idlReader, libName, basePackage, baseJavaDir);
+        generateAndBuild();
     }
 
     private static void generateClassOnly(
@@ -43,14 +35,20 @@ public class Main {
         JParser.generate(idlParser, baseJavaDir, genDir);
     }
 
-    private static void generateAndBuildCPP(
-            IDLReader idlReader,
-            String libName,
-            String basePackage,
-            String baseJavaDir,
-            String cppSourceDir
-    ) throws Exception {
-        String libsDir = new File("./build/c++/desktop/").getCanonicalPath();
+    private static void generateAndBuild() throws Exception {
+
+        String basePackage = "bullet";
+        String libName = "bullet";
+        String emscriptenCustomCodePath = new File("src\\main\\cpp\\idl").getCanonicalPath();
+        String idlPath = new File(emscriptenCustomCodePath + "\\bullet.idl").getCanonicalPath();
+        String baseJavaDir = new File(".").getAbsolutePath() + "./base/src/main/java";
+        String emscriptenDir = new File("./build/bullet/").getCanonicalPath();
+        String cppSourceDir = new File(emscriptenDir + "/bullet/src/").getCanonicalPath();
+
+        IDLReader idlReader = IDLReader.readIDL(idlPath, cppSourceDir);
+
+
+        String libsDir = new File("./build/c++/libs/").getCanonicalPath();
         String genDir = "../core/src/main/java";
         String libBuildPath = new File("./build/c++/").getCanonicalPath();
         String cppDestinationPath = libBuildPath + "/src";
@@ -60,39 +58,66 @@ public class Main {
         CppCodeParserV2 cppParser = new CppCodeParserV2(cppGenerator, idlReader, basePackage);
         cppParser.generateClass = true;
         JParser.generate(cppParser, baseJavaDir, genDir);
-        String [] flags = new String[1];
-        flags[0] = " -DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2";
-        CPPBuildHelper.DEBUG_BUILD = true;
+//        String [] flags = new String[1];
+//        flags[0] = " -DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2";
+//        CPPBuildHelper.DEBUG_BUILD = true;
 
-        CPPBuildHelper.Config config = new CPPBuildHelper.Config();
-        config.libName = libName;
-        config.buildPath = libBuildPath;
-        config.libsDir = libsDir;
-        config.cppFlags = flags;
-
-        config.headerDir.add("src/");
-        config.cppIncludes.add("src/BulletCollision/**/*.cpp");
-        config.cppIncludes.add("src/BulletDynamics/**/*.cpp");
-        config.cppIncludes.add("src/BulletSoftBody/**/*.cpp");
-        config.cppIncludes.add("src/LinearMath/**/*.cpp");
-        config.cppIncludes.add("src/JNIGlue.cpp");
+//        CPPBuildHelper.Config config = new CPPBuildHelper.Config();
+//        config.libName = libName;
+//        config.buildPath = libBuildPath;
+//        config.libsDir = libsDir;
+//        config.cppFlags = flags;
+//
+//        config.headerDir.add("src/");
+//        config.cppIncludes.add("src/BulletCollision/**/*.cpp");
+//        config.cppIncludes.add("src/BulletDynamics/**/*.cpp");
+//        config.cppIncludes.add("src/BulletSoftBody/**/*.cpp");
+//        config.cppIncludes.add("src/LinearMath/**/*.cpp");
+//        config.cppIncludes.add("src/JNIGlue.cpp");
 
 //        CPPBuildHelper.build(config);
 
-        BuildConfig buildConfig = new BuildConfig(cppDestinationPath, libBuildPath, libsDir, libName);
+        BuildConfig buildConfig = new BuildConfig(
+                cppDestinationPath,
+                libBuildPath,
+                libsDir,
+                libName,
+                emscriptenCustomCodePath
+        );
+
+        String teaVMgenDir = "../teavm/src/main/java/";
+        TeaVMCodeParserV2 teavmParser = new TeaVMCodeParserV2(idlReader, libName, basePackage);
+        JParser.generate(teavmParser, baseJavaDir, teaVMgenDir);
+
+        JBuilder.build(
+                buildConfig,
+                getWindowBuildTarget(),
+                getEmscriptenBuildTarget(idlPath)
+        );
+    }
+
+    private static BuildTarget getWindowBuildTarget() {
         WindowsTarget windowsTarget = new WindowsTarget();
-        windowsTarget.headerDirs.add("src/bullet/");
+        windowsTarget.headerDirs.add("-Isrc/bullet/");
         windowsTarget.cppIncludes.add("**/src/bullet/BulletCollision/**.cpp");
         windowsTarget.cppIncludes.add("**/src/bullet/BulletDynamics/**.cpp");
         windowsTarget.cppIncludes.add("**/src/bullet/BulletSoftBody/**.cpp");
         windowsTarget.cppIncludes.add("**/src/bullet/LinearMath/**.cpp");
         windowsTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
-        JBuilder.build(buildConfig, windowsTarget);
+        return windowsTarget;
     }
 
-    public static void generateTeaVM(IDLReader idlReader, String libName, String basePackage, String baseJavaDir) throws Exception {
-        String genDir = "../teavm/src/main/java/";
-        TeaVMCodeParserV2 teavmParser = new TeaVMCodeParserV2(idlReader, libName, basePackage);
-        JParser.generate(teavmParser, baseJavaDir, genDir);
+    private static BuildTarget getEmscriptenBuildTarget(String idlPath) {
+        EmscriptenTarget teaVMTarget = new EmscriptenTarget(idlPath);
+        teaVMTarget.headerDirs.add("-Isrc/bullet");
+        teaVMTarget.headerDirs.add("-includesrc/jsglue/Bullet.h");
+        teaVMTarget.headerDirs.add("-includesrc/jsglue/custom_glue.cpp");
+        teaVMTarget.cppIncludes.add("**/src/bullet/BulletCollision/**.cpp");
+        teaVMTarget.cppIncludes.add("**/src/bullet/BulletDynamics/**.cpp");
+        teaVMTarget.cppIncludes.add("**/src/bullet/BulletSoftBody/**.cpp");
+        teaVMTarget.cppIncludes.add("**/src/bullet/LinearMath/**.cpp");
+        teaVMTarget.cppIncludes.add("**/src/jsglue/glue.cpp");
+        teaVMTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
+        return teaVMTarget;
     }
 }
