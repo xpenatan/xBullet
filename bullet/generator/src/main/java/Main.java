@@ -39,7 +39,7 @@ public class Main {
 
         String basePackage = "bullet";
         String libName = "bullet";
-        String emscriptenCustomCodePath = new File("src\\main\\cpp\\idl").getCanonicalPath();
+        String emscriptenCustomCodePath = new File("src\\main\\cpp\\emscripten").getCanonicalPath();
         String idlPath = new File(emscriptenCustomCodePath + "\\bullet.idl").getCanonicalPath();
         String baseJavaDir = new File(".").getAbsolutePath() + "./base/src/main/java";
         String emscriptenDir = new File("./build/bullet/").getCanonicalPath();
