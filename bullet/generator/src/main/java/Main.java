@@ -1,6 +1,7 @@
 import com.github.xpenatan.jparser.builder.BuildConfig;
 import com.github.xpenatan.jparser.builder.BuildTarget;
 import com.github.xpenatan.jparser.builder.JBuilder;
+import com.github.xpenatan.jparser.builder.targets.AndroidTarget;
 import com.github.xpenatan.jparser.builder.targets.EmscriptenTarget;
 import com.github.xpenatan.jparser.builder.targets.WindowsTarget;
 import com.github.xpenatan.jparser.core.JParser;
@@ -91,8 +92,9 @@ public class Main {
 
         JBuilder.build(
                 buildConfig,
-                getWindowBuildTarget(),
-                getEmscriptenBuildTarget(idlPath)
+//                getWindowBuildTarget(),
+//                getEmscriptenBuildTarget(idlPath),
+                getAndroidBuildTarget()
         );
     }
 
@@ -119,5 +121,16 @@ public class Main {
         teaVMTarget.cppIncludes.add("**/src/jsglue/glue.cpp");
         teaVMTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
         return teaVMTarget;
+    }
+
+    private static BuildTarget getAndroidBuildTarget() {
+        AndroidTarget androidTarget = new AndroidTarget();
+        androidTarget.headerDirs.add("src/bullet/");
+        androidTarget.cppIncludes.add("**/src/bullet/BulletCollision/**.cpp");
+        androidTarget.cppIncludes.add("**/src/bullet/BulletDynamics/**.cpp");
+        androidTarget.cppIncludes.add("**/src/bullet/BulletSoftBody/**.cpp");
+        androidTarget.cppIncludes.add("**/src/bullet/LinearMath/**.cpp");
+        androidTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
+        return androidTarget;
     }
 }

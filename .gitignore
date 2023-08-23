@@ -64,3 +64,4 @@ bullet/teavm/src/main/java/**
 bullet/teavm/src/main/resources/*.js
 bullet/core/src/main/java/**
 bullet/generator/src/main/cpp/bullet
+**/basic/android/libs/

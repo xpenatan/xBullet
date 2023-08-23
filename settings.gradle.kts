@@ -3,10 +3,12 @@ include(":bullet:base")
 include(":bullet:generator")
 include(":bullet:teavm")
 include(":bullet:desktop")
+include(":bullet:android")
 
 include(":examples:basic:core")
 include(":examples:basic:desktop")
 include(":examples:basic:teavm")
+include(":examples:basic:android")
 
 //includeBuild("E:\\Dev\\Projects\\java\\jParser") {
 //    dependencySubstitution {
