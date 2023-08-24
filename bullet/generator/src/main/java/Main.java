@@ -5,11 +5,10 @@ import com.github.xpenatan.jparser.builder.targets.AndroidTarget;
 import com.github.xpenatan.jparser.builder.targets.EmscriptenTarget;
 import com.github.xpenatan.jparser.builder.targets.WindowsTarget;
 import com.github.xpenatan.jparser.core.JParser;
-import com.github.xpenatan.jparser.cpp.CppCodeParserV2;
+import com.github.xpenatan.jparser.cpp.CppCodeParser;
 import com.github.xpenatan.jparser.cpp.CppGenerator;
-import com.github.xpenatan.jparser.cpp.NativeCPPGeneratorV2;
+import com.github.xpenatan.jparser.cpp.NativeCPPGenerator;
 import com.github.xpenatan.jparser.idl.IDLReader;
-import com.github.xpenatan.jparser.cpp.CPPBuildHelper;
 import com.github.xpenatan.jparser.idl.parser.IDLDefaultCodeParser;
 import com.github.xpenatan.jparser.teavm.TeaVMCodeParserV2;
 import java.io.File;
@@ -48,35 +47,16 @@ public class Main {
 
         IDLReader idlReader = IDLReader.readIDL(idlPath, cppSourceDir);
 
-
         String libsDir = new File("./build/c++/libs/").getCanonicalPath();
         String genDir = "../core/src/main/java";
         String libBuildPath = new File("./build/c++/").getCanonicalPath();
         String cppDestinationPath = libBuildPath + "/src";
         String libDestinationPath = cppDestinationPath + "/bullet";
 
-        CppGenerator cppGenerator = new NativeCPPGeneratorV2(cppSourceDir, libDestinationPath);
-        CppCodeParserV2 cppParser = new CppCodeParserV2(cppGenerator, idlReader, basePackage);
+        CppGenerator cppGenerator = new NativeCPPGenerator(cppSourceDir, libDestinationPath);
+        CppCodeParser cppParser = new CppCodeParser(cppGenerator, idlReader, basePackage);
         cppParser.generateClass = true;
         JParser.generate(cppParser, baseJavaDir, genDir);
-//        String [] flags = new String[1];
-//        flags[0] = " -DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2";
-//        CPPBuildHelper.DEBUG_BUILD = true;
-
-//        CPPBuildHelper.Config config = new CPPBuildHelper.Config();
-//        config.libName = libName;
-//        config.buildPath = libBuildPath;
-//        config.libsDir = libsDir;
-//        config.cppFlags = flags;
-//
-//        config.headerDir.add("src/");
-//        config.cppIncludes.add("src/BulletCollision/**/*.cpp");
-//        config.cppIncludes.add("src/BulletDynamics/**/*.cpp");
-//        config.cppIncludes.add("src/BulletSoftBody/**/*.cpp");
-//        config.cppIncludes.add("src/LinearMath/**/*.cpp");
-//        config.cppIncludes.add("src/JNIGlue.cpp");
-
-//        CPPBuildHelper.build(config);
 
         BuildConfig buildConfig = new BuildConfig(
                 cppDestinationPath,
@@ -92,9 +72,9 @@ public class Main {
 
         JBuilder.build(
                 buildConfig,
-//                getWindowBuildTarget(),
-//                getEmscriptenBuildTarget(idlPath),
-                getAndroidBuildTarget()
+                getWindowBuildTarget(),
+                getEmscriptenBuildTarget(idlPath)
+//                getAndroidBuildTarget()
         );
     }
 
