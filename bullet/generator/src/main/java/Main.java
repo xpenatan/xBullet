@@ -20,8 +20,16 @@ public class Main {
     }
 
     public static void generate() throws Exception {
+        String basePackage = "bullet";
+        String emscriptenCustomCodePath = new File("src\\main\\cpp\\emscripten").getCanonicalPath();
+        String idlPath = new File(emscriptenCustomCodePath + "\\bullet.idl").getCanonicalPath();
+        String emscriptenDir = new File("./build/bullet/").getCanonicalPath();
+        String cppSourceDir = new File(emscriptenDir + "/bullet/src/").getCanonicalPath();
+        String baseJavaDir = new File(".").getAbsolutePath() + "./base/src/main/java";
+        IDLReader idlReader = IDLReader.readIDL(idlPath, cppSourceDir);
+
 //        generateClassOnly(idlReader, basePackage, baseJavaDir);
-        generateAndBuild();
+        generateAndBuild(idlReader, basePackage, baseJavaDir, cppSourceDir, idlPath);
     }
 
     private static void generateClassOnly(
@@ -35,17 +43,15 @@ public class Main {
         JParser.generate(idlParser, baseJavaDir, genDir);
     }
 
-    private static void generateAndBuild() throws Exception {
-
-        String basePackage = "bullet";
+    private static void generateAndBuild(
+            IDLReader idlReader,
+            String basePackage,
+            String baseJavaDir,
+            String cppSourceDir,
+            String idlPath
+    ) throws Exception {
         String libName = "bullet";
         String emscriptenCustomCodePath = new File("src\\main\\cpp\\emscripten").getCanonicalPath();
-        String idlPath = new File(emscriptenCustomCodePath + "\\bullet.idl").getCanonicalPath();
-        String baseJavaDir = new File(".").getAbsolutePath() + "./base/src/main/java";
-        String emscriptenDir = new File("./build/bullet/").getCanonicalPath();
-        String cppSourceDir = new File(emscriptenDir + "/bullet/src/").getCanonicalPath();
-
-        IDLReader idlReader = IDLReader.readIDL(idlPath, cppSourceDir);
 
         String libsDir = new File("./build/c++/libs/").getCanonicalPath();
         String genDir = "../core/src/main/java";
