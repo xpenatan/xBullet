@@ -10,6 +10,14 @@ public class btTransform extends IDLBase {
     public btTransform(byte temp) {
     }
 
+    /*[-IDL_SKIP] */
+    public void setFromOpenGLMatrix(idl.helper.FloatArray array) {
+    }
+
+    /*[-IDL_SKIP] */
+    public void getOpenGLMatrix(idl.helper.FloatArray array) {
+    }
+
     public void setFromOpenGLMatrix(float[] m) {
         setFromOpenGLMatrix(getCPointer(), m);
     }
