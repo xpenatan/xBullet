@@ -10,7 +10,7 @@ import com.github.xpenatan.jparser.cpp.CppGenerator;
 import com.github.xpenatan.jparser.cpp.NativeCPPGenerator;
 import com.github.xpenatan.jparser.idl.IDLReader;
 import com.github.xpenatan.jparser.idl.parser.IDLDefaultCodeParser;
-import com.github.xpenatan.jparser.teavm.TeaVMCodeParserV2;
+import com.github.xpenatan.jparser.teavm.TeaVMCodeParser;
 import java.io.File;
 
 public class Main {
@@ -73,7 +73,7 @@ public class Main {
         );
 
         String teaVMgenDir = "../teavm/src/main/java/";
-        TeaVMCodeParserV2 teavmParser = new TeaVMCodeParserV2(idlReader, libName, basePackage);
+        TeaVMCodeParser teavmParser = new TeaVMCodeParser(idlReader, libName, basePackage);
         JParser.generate(teavmParser, baseJavaDir, teaVMgenDir);
 
         JBuilder.build(
