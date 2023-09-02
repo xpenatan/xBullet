@@ -12,7 +12,6 @@ val mainClassName = "com.github.xpenatan.gdx.examples.bullet.Build"
 dependencies {
     implementation(project(":examples:basic:core"))
     implementation("com.badlogicgames.gdx:gdx:${LibExt.gdxVersion}")
-    implementation("com.github.xpenatan.jParser:loader-teavm:${LibExt.jParserVersion}")
     implementation("com.github.xpenatan.gdx-teavm:backend-teavm:${LibExt.gdxTeaVMVersion}")
     implementation(project(":bullet:teavm"))
 }
