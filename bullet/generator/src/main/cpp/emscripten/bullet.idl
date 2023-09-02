@@ -1,5 +1,6 @@
+[NoDelete]
 interface Bullet {
-    long getBTVersion();
+    static long getBTVersion();
 };
 
 [Prefix = "btCollisionWorld::"]

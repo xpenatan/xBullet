@@ -17,6 +17,9 @@
 //typedef btAlignedObjectArray<float>	MyScalarArray;
 //typedef btAlignedObjectArray<const btCollisionObject *>	MyCollisionObjectArray;
 
+#ifndef BULLET_H
+#define BULLET_H
+
 class Bullet {
 public:
     static int getBTVersion() {
@@ -43,6 +46,8 @@ public:
 //        return array[index];
 //    }
 };
+
+#endif  //BULLET_H
 
 //class MyTemp {
 //	public:
