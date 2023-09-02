@@ -10,6 +10,12 @@ include(":examples:basic:desktop")
 include(":examples:basic:teavm")
 include(":examples:basic:android")
 
+//includeBuild("E:\\Dev\\Projects\\java\\gdx-teavm") {
+//    dependencySubstitution {
+//        substitute(module("com.github.xpenatan.gdx-teavm:backend-teavm")).using(project(":backends:backend-teavm"))
+//    }
+//}
+
 //includeBuild("E:\\Dev\\Projects\\java\\jParser") {
 //    dependencySubstitution {
 //        substitute(module("com.github.xpenatan.jParser:base")).using(project(":jParser:base"))
@@ -22,5 +28,3 @@ include(":examples:basic:android")
 //        substitute(module("com.github.xpenatan.jParser:loader-teavm")).using(project(":jParser:loader:loader-teavm"))
 //    }
 //}
-
-// #########
