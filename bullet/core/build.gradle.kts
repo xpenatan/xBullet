@@ -1,4 +1,4 @@
-val moduleName = "core"
+val moduleName = "bullet-core"
 
 dependencies {
     implementation("com.badlogicgames.gdx:gdx:${LibExt.gdxVersion}")

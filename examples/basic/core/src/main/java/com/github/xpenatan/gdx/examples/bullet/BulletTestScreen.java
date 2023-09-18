@@ -23,7 +23,6 @@ import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import bullet.Bullet;
@@ -40,6 +39,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class BulletTestScreen extends ScreenAdapter implements InputProcessor {
+
+
+    private static long DELAY_TIME = 14000;
+
     private int btVersion;
     private PerspectiveCamera camera;
     private ScreenViewport viewport;
@@ -69,7 +72,8 @@ public class BulletTestScreen extends ScreenAdapter implements InputProcessor {
     private static Vector3 rayFrom = new Vector3();
     private static Vector3 rayTo = new Vector3();
     private CameraInputController cameraController;
-    private int totalBoxes = 500;
+    private int value = 25;
+    private int totalBoxes = 0;
 
     @Override
     public void show() {
@@ -178,24 +182,36 @@ public class BulletTestScreen extends ScreenAdapter implements InputProcessor {
 
         int count = 0;
 
-        int offsetY = 15;
+        int offsetY = 20;
+        int offsetX = -3;
 
-        for(int i = 0; i < totalBoxes; i++) {
-            ModelInstance createBox = null;
-            float x = MathUtils.random(-5.0f, 5.0f);
-            float y = MathUtils.random(offsetY + 4f, offsetY + 9f);
-            float z = MathUtils.random(-5.0f, 5.0f);
-            float axisX = MathUtils.random(0, 360);
-            float axisY = MathUtils.random(0, 360);
-            float axisZ = MathUtils.random(0, 360);
-            float r = 1f;
-            float g = 1f;
-            float b = 1f;
+        int iSize = value / 3;
+        int jSize = iSize;
+        int kSize = iSize;
 
-            createBox = createBox("ID: " + count, true, 0.4f, x, y, z, axisX, axisY, axisZ, boxModel, 1, 1, 1, r, g, b);
-            count++;
-            boxes.add(createBox);
+        float multi = 1.3f;
+
+        for(int i = 0; i < iSize; i++) {
+            for(int j = 0; j < jSize; j++) {
+                for(int k = 0; k < kSize; k++) {
+                    ModelInstance createBox = null;
+                    float x = (i + offsetX) * multi;
+                    float y = (j + offsetY) * multi;
+                    float z = k * multi;
+                    float axisX = 0;
+                    float axisY = 0;
+                    float axisZ = 0;
+                    float r = 1f;
+                    float g = 1f;
+                    float b = 1f;
+
+                    createBox = createBox("ID: " + count, true, 0.4f, x, y, z, axisX, axisY, axisZ, boxModel, 1, 1, 1, r, g, b);
+                    count++;
+                    boxes.add(createBox);
+                }
+            }
         }
+        totalBoxes = count;
     }
 
     @Override
@@ -208,7 +224,7 @@ public class BulletTestScreen extends ScreenAdapter implements InputProcessor {
         if(freeze == false) {
             timeNow = System.currentTimeMillis();
 
-            if(timeNow - time > 8000) {
+            if(timeNow - time > DELAY_TIME) {
                 resetBoxes();
                 time = System.currentTimeMillis();
             }

@@ -13,7 +13,7 @@ android {
 
     sourceSets {
         named("main") {
-            jniLibs.srcDirs("$projectDir/../generator/build/c++/libs")
+            jniLibs.srcDirs("$projectDir/../generator/build/c++/libs/android")
         }
     }
     compileOptions {
