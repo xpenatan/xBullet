@@ -96,12 +96,14 @@ public class btTransform extends IDLBase {
     */
     private static native void getOpenGLMatrix(long addr, float[] array);
 
-    public static void convert(Matrix4 in, btTransform out) {
+    public static btTransform convert(Matrix4 in, btTransform out) {
         out.setFromOpenGLMatrix(in.val);
+        return out;
     }
 
-    public static void convert(btTransform in, Matrix4 out) {
+    public static Matrix4 convert(btTransform in, Matrix4 out) {
         in.getOpenGLMatrix(out.val);
+        return out;
     }
 
     public static void convert(Matrix4 in, long outAddr) {

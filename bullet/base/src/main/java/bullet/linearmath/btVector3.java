@@ -12,14 +12,16 @@ public class btVector3 extends IDLBase {
     public native float getZ();
     public native void setValue(float x, float y, float z);
 
-    public static void convert(btVector3 in, Vector3 out) {
+    public static Vector3 convert(btVector3 in, Vector3 out) {
         float x = in.getX();
         float y = in.getY();
         float z = in.getZ();
         out.set(x, y, z);
+        return out;
     }
 
-    public static void convert(Vector3 in, btVector3 out) {
+    public static btVector3 convert(Vector3 in, btVector3 out) {
         out.setValue(in.x, in.y, in.z);
+        return out;
     }
 }
