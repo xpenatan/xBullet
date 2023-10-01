@@ -21,8 +21,8 @@ public class Main {
 
     public static void generate() throws Exception {
         String basePackage = "bullet";
-        String emscriptenCustomCodePath = new File("src\\main\\cpp\\emscripten").getCanonicalPath();
-        String idlPath = new File(emscriptenCustomCodePath + "\\bullet.idl").getCanonicalPath();
+        String emscriptenCustomCodePath = new File("src/main/cpp/emscripten").getCanonicalPath();
+        String idlPath = new File(emscriptenCustomCodePath + "/bullet.idl").getCanonicalPath();
         String emscriptenDir = new File("./build/bullet/").getCanonicalPath();
         String cppSourceDir = new File(emscriptenDir + "/bullet/src/").getCanonicalPath();
         String baseJavaDir = new File(".").getAbsolutePath() + "./base/src/main/java";
@@ -51,7 +51,7 @@ public class Main {
             String idlPath
     ) throws Exception {
         String libName = "bullet";
-        String emscriptenCustomCodePath = new File("src\\main\\cpp\\emscripten").getCanonicalPath();
+        String emscriptenCustomCodePath = new File("src/main/cpp/emscripten").getCanonicalPath();
 
         String libsDir = new File("./build/c++/libs/").getCanonicalPath();
         String genDir = "../core/src/main/java";
@@ -79,8 +79,8 @@ public class Main {
         JBuilder.build(
                 buildConfig,
                 getWindowBuildTarget(),
-                getEmscriptenBuildTarget(idlPath)
-//                getAndroidBuildTarget()
+                getEmscriptenBuildTarget(idlPath),
+                getAndroidBuildTarget()
         );
     }
 
