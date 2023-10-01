@@ -5,8 +5,8 @@ import idl.IDLBase;
 
 public class btTransform extends IDLBase {
 
-    public static btTransform TMP_01 = new btTransform();
-    public static btTransform TMP_02 = new btTransform();
+    public static btTransform TMP_1 = new btTransform();
+    public static btTransform TMP_2 = new btTransform();
 
     public static btTransform emptyTransform = new btTransform((byte)1);
 
