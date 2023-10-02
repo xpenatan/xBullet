@@ -334,7 +334,7 @@ interface btRigidBody {
 //    [Const, Ref]btVector3 getTotalTorque();
 //    [Const, Ref]btVector3 getInvInertiaDiagLocal();
 //    void setInvInertiaDiagLocal([Const,Ref]btVector3 diagInvInertia);
-//    void setSleepingThresholds(float linear, float angular);
+    void setSleepingThresholds(float linear, float angular);
 //    void applyTorque([Const, Ref]btVector3 torque);
 //    void applyForce([Const, Ref]btVector3 force, [Const, Ref]btVector3 rel_pos);
 //    void applyCentralImpulse([Const, Ref]btVector3 impulse);
@@ -356,7 +356,7 @@ interface btRigidBody {
 //    boolean wantsSleeping();
 //    //btBroadphaseProxy getBroadphaseProxy(); // Not needed. btCollisionObject already have this call
 //    //void setNewBroadphaseProxy(btBroadphaseProxy broadphaseProxy) // Not needed
-//    btMotionState getMotionState();
+    btMotionState getMotionState();
 //    void setMotionState(btMotionState motionState);
 //    void setAngularFactor([Const, Ref]btVector3 angFac);
 //    [Const, Ref]btVector3 getAngularFactor();

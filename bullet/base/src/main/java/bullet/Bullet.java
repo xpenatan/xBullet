@@ -9,7 +9,8 @@ import com.github.xpenatan.jparser.loader.JParserLibraryLoader;
 public class Bullet {
 
     /*[-C++;-NATIVE]
-       #include "LinearMath/btScalar.h"
+       #include "btBulletCollisionCommon.h"
+       #include "btBulletDynamicsCommon.h"
     */
 
     /*[-teaVM;-ADD]
