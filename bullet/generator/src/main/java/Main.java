@@ -5,6 +5,7 @@ import com.github.xpenatan.jparser.builder.targets.AndroidTarget;
 import com.github.xpenatan.jparser.builder.targets.EmscriptenTarget;
 import com.github.xpenatan.jparser.builder.targets.WindowsTarget;
 import com.github.xpenatan.jparser.core.JParser;
+import com.github.xpenatan.jparser.core.util.FileHelper;
 import com.github.xpenatan.jparser.cpp.CppCodeParser;
 import com.github.xpenatan.jparser.cpp.CppGenerator;
 import com.github.xpenatan.jparser.cpp.NativeCPPGenerator;
@@ -59,7 +60,9 @@ public class Main {
         String cppDestinationPath = libBuildPath + "/src";
         String libDestinationPath = cppDestinationPath + "/bullet";
 
-        CppGenerator cppGenerator = new NativeCPPGenerator(cppSourceDir, libDestinationPath);
+        FileHelper.copyDir(cppSourceDir, libDestinationPath);
+
+        CppGenerator cppGenerator = new NativeCPPGenerator(libDestinationPath);
         CppCodeParser cppParser = new CppCodeParser(cppGenerator, idlReader, basePackage);
         cppParser.generateClass = true;
         JParser.generate(cppParser, baseJavaDir, genDir);
