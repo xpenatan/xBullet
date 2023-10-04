@@ -1,7 +1,7 @@
 package com.github.xpenatan.gdx.examples.bullet;
 
+import bullet.BulletLoader;
 import com.badlogic.gdx.ScreenAdapter;
-import bullet.Bullet;
 
 public class BulletInitScreen extends ScreenAdapter {
 
@@ -15,7 +15,7 @@ public class BulletInitScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        Bullet.init(() -> bulletInit = true);
+        BulletLoader.init(() -> bulletInit = true);
     }
 
     @Override

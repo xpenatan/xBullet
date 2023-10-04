@@ -1,30 +1,11 @@
 #include <emscripten.h>
-#include <LinearMath/btScalar.h>
-//#include <LinearMath/btVector3.h>
-//#include <LinearMath/btQuaternion.h>
-//#include <LinearMath/btTransform.h>
-//#include <LinearMath/btMatrix3x3.h>
-//#include <LinearMath/btMotionState.h>
-//#include <LinearMath/btIDebugDraw.h>
-//#include <LinearMath/btAlignedObjectArray.h>
-//#include <BulletCollision/CollisionDispatch/btCollisionWorld.h>
-//#include <BulletCollision/NarrowPhaseCollision/btRaycastCallback.h>
-//#include <BulletCollision/CollisionShapes/btShapeHull.h>
-//#include <BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h>
-//
-//
-//typedef btAlignedObjectArray<btVector3>	MyVector3Array;
-//typedef btAlignedObjectArray<float>	MyScalarArray;
-//typedef btAlignedObjectArray<const btCollisionObject *>	MyCollisionObjectArray;
+#include "CustomCode.h"
 
-#ifndef BULLET_H
-#define BULLET_H
+#ifndef JS_GLUE_H
+#define JS_GLUE_H
 
-class Bullet {
+class JSGlue {
 public:
-    static int getBTVersion() {
-        return btGetVersion();
-    }
 
 //    static void setVertices(btIndexedMesh *mesh, float * vertices, int sizeInBytesOfEachVertex, int vertexCount, int positionOffsetInBytes) {
 //        unsigned char *data = (unsigned char *)vertices;
@@ -47,7 +28,7 @@ public:
 //    }
 };
 
-#endif  //BULLET_H
+#endif  // JS_GLUE_H
 
 //class MyTemp {
 //	public:

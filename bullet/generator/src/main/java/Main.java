@@ -61,6 +61,7 @@ public class Main {
         String libDestinationPath = cppDestinationPath + "/bullet";
 
         FileHelper.copyDir(cppSourceDir, libDestinationPath);
+        FileHelper.copyDir("src/main/cpp/cpp-source/custom", libDestinationPath);
 
         CppGenerator cppGenerator = new NativeCPPGenerator(libDestinationPath);
         CppCodeParser cppParser = new CppCodeParser(cppGenerator, idlReader, basePackage);
@@ -101,7 +102,6 @@ public class Main {
     private static BuildTarget getEmscriptenBuildTarget(String idlPath) {
         EmscriptenTarget teaVMTarget = new EmscriptenTarget(idlPath);
         teaVMTarget.headerDirs.add("-Isrc/bullet");
-        teaVMTarget.headerDirs.add("-includesrc/jsglue/Bullet.h");
         teaVMTarget.headerDirs.add("-includesrc/jsglue/custom_glue.cpp");
         teaVMTarget.cppIncludes.add("**/src/bullet/BulletCollision/**.cpp");
         teaVMTarget.cppIncludes.add("**/src/bullet/BulletDynamics/**.cpp");
