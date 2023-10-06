@@ -1,5 +1,7 @@
 package com.github.xpenatan.gdx.examples.bullet;
 
+import bullet.DebugDrawModes;
+import bullet.linearmath.DebugDrawer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
@@ -55,7 +57,7 @@ public class BulletTestScreen extends ScreenAdapter implements InputProcessor {
 
     Array<btRigidBody> colObjs = new Array<>();
     btDiscreteDynamicsWorld world;
-//    DebugDrawer debugDrawer;
+    DebugDrawer debugDrawer;
     btDefaultCollisionConfiguration collisionConfiguration;
     btCollisionDispatcher dispatcher;
     btDbvtBroadphase broadphase;
@@ -87,10 +89,10 @@ public class BulletTestScreen extends ScreenAdapter implements InputProcessor {
         world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
         btVector3 gravity = new btVector3(0, -10, 0);
         world.setGravity(gravity);
-//
-//        debugDrawer = new DebugDrawer();
-//        world.setDebugDrawer(debugDrawer);
-//        debugDrawer.setDebugMode(btIDebugDraw.DebugDrawModes.DBG_MAX_DEBUG_DRAW_MODE | btIDebugDraw.DebugDrawModes.DBG_DrawContactPoints);
+
+        debugDrawer = new DebugDrawer();
+        world.setDebugDrawer(debugDrawer);
+        debugDrawer.setDebugMode(DebugDrawModes.DBG_MAX_DEBUG_DRAW_MODE | DebugDrawModes.DBG_DrawContactPoints);
 //        raycast = new ClosestRayResultCallback(Vector3.Zero, Vector3.Z);
 
         camera = new PerspectiveCamera();
@@ -242,9 +244,9 @@ public class BulletTestScreen extends ScreenAdapter implements InputProcessor {
         modelBatch.end();
 
         if(debug) {
-//            debugDrawer.begin(camera);
-//            world.debugDrawWorld();
-//            debugDrawer.end();
+            debugDrawer.begin(camera);
+            world.debugDrawWorld();
+            debugDrawer.end();
         }
 
         batch.begin();

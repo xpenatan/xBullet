@@ -22,8 +22,7 @@ public class Main {
 
     public static void generate() throws Exception {
         String basePackage = "bullet";
-        String emscriptenCustomCodePath = new File("src/main/cpp/emscripten").getCanonicalPath();
-        String idlPath = new File(emscriptenCustomCodePath + "/bullet.idl").getCanonicalPath();
+        String idlPath = new File("src/main/cpp/bullet.idl").getCanonicalPath();
         String emscriptenDir = new File("./build/bullet/").getCanonicalPath();
         String cppSourceDir = new File(emscriptenDir + "/bullet/src/").getCanonicalPath();
         String baseJavaDir = new File(".").getAbsolutePath() + "./base/src/main/java";
@@ -52,7 +51,6 @@ public class Main {
             String idlPath
     ) throws Exception {
         String libName = "bullet";
-        String emscriptenCustomCodePath = new File("src/main/cpp/emscripten").getCanonicalPath();
 
         String libsDir = new File("./build/c++/libs/").getCanonicalPath();
         String genDir = "../core/src/main/java";
@@ -61,7 +59,7 @@ public class Main {
         String libDestinationPath = cppDestinationPath + "/bullet";
 
         FileHelper.copyDir(cppSourceDir, libDestinationPath);
-        FileHelper.copyDir("src/main/cpp/cpp-source/custom", libDestinationPath);
+        FileHelper.copyDir("src/main/cpp/custom", libDestinationPath);
 
         CppGenerator cppGenerator = new NativeCPPGenerator(libDestinationPath);
         CppCodeParser cppParser = new CppCodeParser(cppGenerator, idlReader, basePackage);
@@ -72,8 +70,7 @@ public class Main {
                 cppDestinationPath,
                 libBuildPath,
                 libsDir,
-                libName,
-                emscriptenCustomCodePath
+                libName
         );
 
         String teaVMgenDir = "../teavm/src/main/java/";
@@ -82,7 +79,7 @@ public class Main {
 
         JBuilder.build(
                 buildConfig,
-                getWindowBuildTarget(),
+//                getWindowBuildTarget(),
                 getEmscriptenBuildTarget(idlPath)
 //                getAndroidBuildTarget()
         );
@@ -102,12 +99,11 @@ public class Main {
     private static BuildTarget getEmscriptenBuildTarget(String idlPath) {
         EmscriptenTarget teaVMTarget = new EmscriptenTarget(idlPath);
         teaVMTarget.headerDirs.add("-Isrc/bullet");
-        teaVMTarget.headerDirs.add("-includesrc/jsglue/custom_glue.cpp");
+        teaVMTarget.headerDirs.add("-includesrc/bullet/BulletCustom.h");
         teaVMTarget.cppIncludes.add("**/src/bullet/BulletCollision/**.cpp");
         teaVMTarget.cppIncludes.add("**/src/bullet/BulletDynamics/**.cpp");
         teaVMTarget.cppIncludes.add("**/src/bullet/BulletSoftBody/**.cpp");
         teaVMTarget.cppIncludes.add("**/src/bullet/LinearMath/**.cpp");
-        teaVMTarget.cppIncludes.add("**/src/jsglue/glue.cpp");
         teaVMTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
         return teaVMTarget;
     }

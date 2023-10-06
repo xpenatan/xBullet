@@ -21,6 +21,7 @@ typedef btAlignedObjectArray<int> btIntArray;
 typedef btAlignedObjectArray<btIndexedMesh> btIndexedMeshArray;
 typedef btAlignedObjectArray<const btCollisionObject*> btConstCollisionObjectArray;
 typedef btAlignedObjectArray<btScalar> btScalarArray;
+typedef btIDebugDraw::DebugDrawModes DebugDrawModes;
 
 #ifndef CUSTOM_CODE_H
 #define CUSTOM_CODE_H
