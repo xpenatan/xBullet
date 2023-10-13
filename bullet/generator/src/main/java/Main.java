@@ -3,6 +3,7 @@ import com.github.xpenatan.jparser.builder.BuildTarget;
 import com.github.xpenatan.jparser.builder.JBuilder;
 import com.github.xpenatan.jparser.builder.targets.AndroidTarget;
 import com.github.xpenatan.jparser.builder.targets.EmscriptenTarget;
+import com.github.xpenatan.jparser.builder.targets.WindowsMSVSTarget;
 import com.github.xpenatan.jparser.builder.targets.WindowsTarget;
 import com.github.xpenatan.jparser.core.JParser;
 import com.github.xpenatan.jparser.core.util.FileHelper;
@@ -79,7 +80,7 @@ public class Main {
 
         JBuilder.build(
                 buildConfig,
-//                getWindowBuildTarget(),
+                getWindowBuildTarget(),
                 getEmscriptenBuildTarget(idlPath)
 //                getAndroidBuildTarget()
         );
@@ -87,6 +88,7 @@ public class Main {
 
     private static BuildTarget getWindowBuildTarget() {
         WindowsTarget windowsTarget = new WindowsTarget();
+//        WindowsMSVSTarget windowsTarget = new WindowsMSVSTarget();
         windowsTarget.headerDirs.add("-Isrc/bullet/");
         windowsTarget.cppIncludes.add("**/src/bullet/BulletCollision/**.cpp");
         windowsTarget.cppIncludes.add("**/src/bullet/BulletDynamics/**.cpp");

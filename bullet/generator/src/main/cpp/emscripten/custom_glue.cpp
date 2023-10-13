@@ -1,5 +1,4 @@
 #include <emscripten.h>
-#include "CustomCode.h"
 
 #ifndef JS_GLUE_H
 #define JS_GLUE_H

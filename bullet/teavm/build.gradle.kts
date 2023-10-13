@@ -1,6 +1,6 @@
 val moduleName = "bullet-teavm"
 
-val emscriptenFile = "$projectDir/../generator/build/c++/libs/bullet.wasm.js"
+val emscriptenFile = "$projectDir/../generator/build/c++/libs/emscripten/bullet.wasm.js"
 
 tasks.jar {
     from(emscriptenFile)

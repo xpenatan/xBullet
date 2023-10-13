@@ -9,7 +9,7 @@ import com.github.xpenatan.jparser.loader.JParserLibraryLoader;
 public class BulletLoader {
 
     /*[-C++;-NATIVE]
-       #include "CustomCode.h"
+       #include "BulletCustom.h"
     */
 
     /*[-teaVM;-ADD]
