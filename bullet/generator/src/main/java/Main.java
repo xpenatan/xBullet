@@ -1,5 +1,5 @@
 import com.github.xpenatan.jparser.builder.BuildConfig;
-import com.github.xpenatan.jparser.builder.BuildTarget;
+import com.github.xpenatan.jparser.builder.BuildMultiTarget;
 import com.github.xpenatan.jparser.builder.JBuilder;
 import com.github.xpenatan.jparser.builder.targets.AndroidTarget;
 import com.github.xpenatan.jparser.builder.targets.EmscriptenTarget;
@@ -80,37 +80,55 @@ public class Main {
 
         JBuilder.build(
                 buildConfig,
-                getWindowBuildTarget(),
-                getEmscriptenBuildTarget(idlPath)
+                getWindowBuildTarget()
+//                getEmscriptenBuildTarget(idlPath)
 //                getAndroidBuildTarget()
         );
     }
 
-    private static BuildTarget getWindowBuildTarget() {
+    private static BuildMultiTarget getWindowBuildTarget() {
+        BuildMultiTarget multiTarget = new BuildMultiTarget();
+
         WindowsTarget windowsTarget = new WindowsTarget();
-//        WindowsMSVSTarget windowsTarget = new WindowsMSVSTarget();
+        windowsTarget.isStatic = true;
+        windowsTarget.addJNI = false;
         windowsTarget.headerDirs.add("-Isrc/bullet/");
         windowsTarget.cppIncludes.add("**/src/bullet/BulletCollision/**.cpp");
         windowsTarget.cppIncludes.add("**/src/bullet/BulletDynamics/**.cpp");
         windowsTarget.cppIncludes.add("**/src/bullet/BulletSoftBody/**.cpp");
         windowsTarget.cppIncludes.add("**/src/bullet/LinearMath/**.cpp");
         windowsTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
-        return windowsTarget;
+
+        multiTarget.add(windowsTarget);
+
+        WindowsTarget glueTarget = new WindowsTarget();
+        glueTarget.linkerFlags.add("../../libs/windows/bullet64.a");
+        glueTarget.headerDirs.add("-Isrc/bullet/");
+        multiTarget.add(glueTarget);
+
+        return multiTarget;
     }
 
-    private static BuildTarget getEmscriptenBuildTarget(String idlPath) {
-        EmscriptenTarget teaVMTarget = new EmscriptenTarget(idlPath);
-        teaVMTarget.headerDirs.add("-Isrc/bullet");
-        teaVMTarget.headerDirs.add("-includesrc/bullet/BulletCustom.h");
-        teaVMTarget.cppIncludes.add("**/src/bullet/BulletCollision/**.cpp");
-        teaVMTarget.cppIncludes.add("**/src/bullet/BulletDynamics/**.cpp");
-        teaVMTarget.cppIncludes.add("**/src/bullet/BulletSoftBody/**.cpp");
-        teaVMTarget.cppIncludes.add("**/src/bullet/LinearMath/**.cpp");
-        teaVMTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
-        return teaVMTarget;
+    private static BuildMultiTarget getEmscriptenBuildTarget(String idlPath) {
+        BuildMultiTarget multiTarget = new BuildMultiTarget();
+
+        EmscriptenTarget emscriptenTarget = new EmscriptenTarget(idlPath);
+        emscriptenTarget.headerDirs.add("-Isrc/bullet");
+        emscriptenTarget.headerDirs.add("-includesrc/bullet/BulletCustom.h");
+        emscriptenTarget.cppIncludes.add("**/src/bullet/BulletCollision/**.cpp");
+        emscriptenTarget.cppIncludes.add("**/src/bullet/BulletDynamics/**.cpp");
+        emscriptenTarget.cppIncludes.add("**/src/bullet/BulletSoftBody/**.cpp");
+        emscriptenTarget.cppIncludes.add("**/src/bullet/LinearMath/**.cpp");
+        emscriptenTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
+
+        multiTarget.add(emscriptenTarget);
+
+        return multiTarget;
     }
 
-    private static BuildTarget getAndroidBuildTarget() {
+    private static BuildMultiTarget getAndroidBuildTarget() {
+        BuildMultiTarget multiTarget = new BuildMultiTarget();
+
         AndroidTarget androidTarget = new AndroidTarget();
         androidTarget.headerDirs.add("src/bullet/");
         androidTarget.cppIncludes.add("**/src/bullet/BulletCollision/**.cpp");
@@ -118,6 +136,9 @@ public class Main {
         androidTarget.cppIncludes.add("**/src/bullet/BulletSoftBody/**.cpp");
         androidTarget.cppIncludes.add("**/src/bullet/LinearMath/**.cpp");
         androidTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
-        return androidTarget;
+
+        multiTarget.add(androidTarget);
+
+        return multiTarget;
     }
 }
