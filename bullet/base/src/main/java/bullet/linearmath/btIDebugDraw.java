@@ -1,6 +1,5 @@
 package bullet.linearmath;
 
-import com.badlogic.gdx.math.Matrix4;
 import idl.IDLBase;
 
 public class btIDebugDraw extends IDLBase {

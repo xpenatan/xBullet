@@ -23,6 +23,10 @@ typedef btAlignedObjectArray<const btCollisionObject*> btConstCollisionObjectArr
 typedef btAlignedObjectArray<btScalar> btScalarArray;
 typedef btIDebugDraw::DebugDrawModes DebugDrawModes;
 
+typedef btCollisionObject::CollisionFlags CollisionFlags;
+typedef btCollisionObject::CollisionObjectTypes CollisionObjectTypes;
+typedef btCollisionObject::AnisotropicFrictionFlags AnisotropicFrictionFlags;
+
 #ifndef CUSTOM_CODE_H
 #define CUSTOM_CODE_H
 

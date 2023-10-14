@@ -97,29 +97,29 @@ interface DebugDrawImpl {
 
 interface btCollisionWorld {
     void btCollisionWorld(btDispatcher dispatcher, btBroadphaseInterface pairCache, btCollisionConfiguration collisionConfiguration);
-//    void setBroadphase(btBroadphaseInterface pairCache);
-//    //btBroadphaseInterface getBroadphase(); //Not needed
-//    //btOverlappingPairCache getPairCache(); //Not needed
-//    btDispatcher getDispatcher();
-//    void updateSingleAabb(btCollisionObject colObj);
-//    void updateAabbs();
-//    void computeOverlappingPairs();
+    void setBroadphase(btBroadphaseInterface pairCache);
+    btBroadphaseInterface getBroadphase();
+    btOverlappingPairCache getPairCache();
+    btDispatcher getDispatcher();
+    [Ref]btDispatcherInfo getDispatchInfo();
+    btIDebugDraw getDebugDrawer();
+    void updateSingleAabb(btCollisionObject colObj);
+    void updateAabbs();
+    void computeOverlappingPairs();
     void setDebugDrawer(btIDebugDraw debugDrawer);
-//    //btIDebugDraw getDebugDrawer(); //Not needed
     void debugDrawWorld();
-//    void debugDrawObject ([Const, Ref] btTransform worldTransform, [Const] btCollisionShape shape, [Const, Ref] btVector3 color);
-//    long getNumCollisionObjects();
-//    void rayTest([Const, Ref]btVector3 rayFromWorld, [Const, Ref]btVector3 rayToWorld, [Ref]RayResultCallback resultCallback);
-//    void convexSweepTest([Const]btConvexShape castShape, [Const, Ref]btTransform from, [Const, Ref]btTransform to, [Ref]ConvexResultCallback resultCallback, optional float allowedCcdPenetration);
-//    void contactTest(btCollisionObject colObj, [Ref]ContactResultCallback resultCallback);
-//    void contactPairTest(btCollisionObject colObjA, btCollisionObject colObjB, [Ref]ContactResultCallback resultCallback);
-//    void addCollisionObject(btCollisionObject collisionObject, optional long collisionFilterGroup, optional long collisionFilterMask);
-//    [Ref]btCollisionObjectArray getCollisionObjectArray();
-//    void removeCollisionObject(btCollisionObject collisionObject);
-//    void performDiscreteCollisionDetection();
-//    [Ref]btDispatcherInfo getDispatchInfo();
-//    boolean getForceUpdateAllAabbs ();
-//    void setForceUpdateAllAabbs(boolean f);
+    void debugDrawObject ([Const, Ref] btTransform worldTransform, [Const] btCollisionShape shape, [Const, Ref] btVector3 color);
+    long getNumCollisionObjects();
+    void rayTest([Const, Ref]btVector3 rayFromWorld, [Const, Ref]btVector3 rayToWorld, [Ref]RayResultCallback resultCallback);
+    void convexSweepTest([Const]btConvexShape castShape, [Const, Ref]btTransform from, [Const, Ref]btTransform to, [Ref]ConvexResultCallback resultCallback, optional float allowedCcdPenetration);
+    void contactTest(btCollisionObject colObj, [Ref]ContactResultCallback resultCallback);
+    void contactPairTest(btCollisionObject colObjA, btCollisionObject colObjB, [Ref]ContactResultCallback resultCallback);
+    void addCollisionObject(btCollisionObject collisionObject, optional long collisionFilterGroup, optional long collisionFilterMask);
+    [Ref]btCollisionObjectArray getCollisionObjectArray();
+    void removeCollisionObject(btCollisionObject collisionObject);
+    void performDiscreteCollisionDetection();
+    boolean getForceUpdateAllAabbs ();
+    void setForceUpdateAllAabbs(boolean f);
 };
 
 interface btCollisionConfiguration {};
@@ -135,6 +135,7 @@ btDefaultCollisionConfiguration implements btCollisionConfiguration;
 
 interface btCollisionObject {
     void btCollisionObject();
+    btCollisionShape getCollisionShape();
     boolean mergesSimulationIslands();
     [Const, Ref] btVector3 getAnisotropicFriction();
     void setAnisotropicFriction([Const, Ref]btVector3 anisotropicFriction, long frictionMode);
@@ -146,7 +147,6 @@ interface btCollisionObject {
     boolean isStaticOrKinematicObject();
     boolean hasContactResponse();
     void setCollisionShape(btCollisionShape collisionShape);
-    //btCollisionShape getCollisionShape(); //Not needed
     void setIgnoreCollisionCheck([Const] btCollisionObject obj, boolean ignoreCollisionCheck);
     boolean checkCollideWithOverride([Const] btCollisionObject obj);
     long getActivationState();
@@ -191,6 +191,7 @@ interface btCollisionObject {
     void setUserIndex(long index);
     long getUpdateRevisionInternal();
     boolean checkCollideWith([Const] btCollisionObject co);
+    [Const] long getInternalType();
 };
 
 interface btManifoldPoint {
@@ -272,6 +273,14 @@ interface btCollisionShape {
     float getMargin();
     long getShapeType();
     void getAabb([Const, Ref]btTransform t, [Ref]btVector3 aabbMin, [Ref]btVector3 aabbMax);
+    boolean isPolyhedral();
+    boolean isConvex2d();
+    boolean isConvex();
+    boolean isNonMoving();
+    boolean isConcave();
+    boolean isCompound();
+    boolean isSoftBody();
+    boolean isInfinite();
 };
 
 interface btConvexShape {
@@ -672,87 +681,78 @@ interface btConeShape {
 };
 btConeShape implements btConvexInternalShape;
 
-////interface btConvexHullShape {
-////    void btConvexHullShape([Const] optional float[] points, optional long numPoints, optional long stride);
-////    void addPoint([Const, Ref]btVector3 point, optional boolean recalculateLocalAABB);
-////    void setMargin(float margin);
-////    float getMargin();
-////    long getNumPoints();
-////    [Value]btVector3 getScaledPoint(long i);
-////    void optimizeConvexHull();
-////};
-////btConvexHullShape implements btPolyhedralConvexAabbCachingShape;
-//
-//interface btConeShapeX {
-//    void btConeShapeX(float radius, float height);
-//};
-//btConeShapeX implements btConeShape;
-//
-//interface btConeShapeZ {
-//    void btConeShapeZ(float radius, float height);
-//};
-//btConeShapeZ implements btConeShape;
-//
-//interface btCompoundShape {
-//    void btCompoundShape(optional boolean enableDynamicAabbTree);
-//    void addChildShape([Const, Ref]btTransform localTransform, btCollisionShape shape);
-//    void removeChildShapeByIndex(long childShapeindex);
-//    void removeChildShape(btCollisionShape shape);
-//    [Const]long getNumChildShapes();
-//    btCollisionShape getChildShape(long index);
+interface btConvexHullShape {
+    void btConvexHullShape([Const] optional float[] points, optional long numPoints, optional long stride);
+    void addPoint([Const, Ref]btVector3 point, optional boolean recalculateLocalAABB);
+    void setMargin(float margin);
+    float getMargin();
+    long getNumPoints();
+    [Value]btVector3 getScaledPoint(long i);
+    void optimizeConvexHull();
+};
+btConvexHullShape implements btPolyhedralConvexAabbCachingShape;
+
+interface btConeShapeX {
+    void btConeShapeX(float radius, float height);
+};
+btConeShapeX implements btConeShape;
+
+interface btConeShapeZ {
+    void btConeShapeZ(float radius, float height);
+};
+btConeShapeZ implements btConeShape;
+
+interface btCompoundShape {
+    void btCompoundShape(optional boolean enableDynamicAabbTree);
+    void addChildShape([Const, Ref]btTransform localTransform, btCollisionShape shape);
+    void removeChildShapeByIndex(long childShapeindex);
+    void removeChildShape(btCollisionShape shape);
+    [Const]long getNumChildShapes();
+    btCollisionShape getChildShape(long index);
+    void setMargin(float margin);
+    float getMargin();
+    void recalculateLocalAabb();
+};
+btCompoundShape implements btCollisionShape;
+
+interface btConcaveShape {};
+btConcaveShape implements btCollisionShape;
+
+interface btStaticPlaneShape {
+    void btStaticPlaneShape([Const, Ref]btVector3 planeNormal, float planeConstant);
+};
+btStaticPlaneShape implements btConcaveShape;
+
+interface btTriangleMeshShape {};
+btTriangleMeshShape implements btConcaveShape;
+
+interface btBvhTriangleMeshShape {
+    void btBvhTriangleMeshShape(btStridingMeshInterface meshInterface, boolean useQuantizedAabbCompression, optional boolean buildBvh);
+    void btBvhTriangleMeshShape(btStridingMeshInterface meshInterface, boolean useQuantizedAabbCompression, [Const, Ref]btVector3 bvhAabbMin, [Const, Ref]btVector3 bvhAabbMax, optional boolean buildBvh);
+    void performRaycast(btTriangleCallback callback, [Const, Ref]btVector3 raySource, [Const, Ref]btVector3 rayTarget);
+};
+btBvhTriangleMeshShape implements btTriangleMeshShape;
+
+//interface btHeightfieldTerrainShape {
+//    void btHeightfieldTerrainShape(long heightStickWidth, long heightStickLength, VoidPtr heightfieldData, float heightScale, float minHeight, float maxHeight, long upAxis, PHY_ScalarType hdt, boolean flipQuadEdges);
 //    void setMargin(float margin);
 //    float getMargin();
-//    void recalculateLocalAabb();
 //};
-//btCompoundShape implements btCollisionShape;
-//
-//interface btConcaveShape {};
-//btConcaveShape implements btCollisionShape;
-//
-//interface btStaticPlaneShape {
-//    void btStaticPlaneShape([Const, Ref]btVector3 planeNormal, float planeConstant);
-//};
-//btStaticPlaneShape implements btConcaveShape;
-//
-//interface btTriangleMeshShape {};
-//btTriangleMeshShape implements btConcaveShape;
-//
-//interface btBvhTriangleMeshShape {
-//    void btBvhTriangleMeshShape(btStridingMeshInterface meshInterface, boolean useQuantizedAabbCompression, optional boolean buildBvh);
-//    void btBvhTriangleMeshShape(btStridingMeshInterface meshInterface, boolean useQuantizedAabbCompression, [Const, Ref]btVector3 bvhAabbMin, [Const, Ref]btVector3 bvhAabbMax, optional boolean buildBvh);
-//    void performRaycast(btTriangleCallback callback, [Const, Ref]btVector3 raySource, [Const, Ref]btVector3 rayTarget);
-//};
-//btBvhTriangleMeshShape implements btTriangleMeshShape;
-//
-////interface btHeightfieldTerrainShape {
-////    void btHeightfieldTerrainShape(long heightStickWidth, long heightStickLength, VoidPtr heightfieldData, float heightScale, float minHeight, float maxHeight, long upAxis, PHY_ScalarType hdt, boolean flipQuadEdges);
-////    void setMargin(float margin);
-////    float getMargin();
-////};
-////btHeightfieldTerrainShape implements btConcaveShape;
-//
-//interface btScaledBvhTriangleMeshShape {
-//    void btScaledBvhTriangleMeshShape(btBvhTriangleMeshShape childShape, [Const, Ref]btVector3 localScaling);
-//};
-//
-//interface btShapeHull {
-//    void btShapeHull(btConvexShape shape);
-//    long numTriangles();
-//    long numVertices();
-//    long numIndices();
-//    boolean buildHull(float margin);
-//};
-//
-// Other stuff
+//btHeightfieldTerrainShape implements btConcaveShape;
 
-enum PHY_ScalarType {
-    "PHY_FLOAT",
-    "PHY_DOUBLE",
-    "PHY_INTEGER",
-    "PHY_SHORT",
-    "PHY_FIXEDPOINT88",
-    "PHY_UCHAR"
+interface btScaledBvhTriangleMeshShape {
+    void btScaledBvhTriangleMeshShape(btBvhTriangleMeshShape childShape, [Const, Ref]btVector3 localScaling);
 };
+
+interface btShapeHull {
+    void btShapeHull(btConvexShape shape);
+    long numTriangles();
+    long numVertices();
+    long numIndices();
+    boolean buildHull(float margin);
+};
+
+// Other stuff
 
 interface btIndexedMesh {
     void btIndexedMesh();
@@ -1280,7 +1280,16 @@ btSoftRigidDynamicsWorld implements btDiscreteDynamicsWorld;
 //    btSoftBody CreateFromConvexHull([Ref]btSoftBodyWorldInfo worldInfo, [Const]btVector3 vertices, long nvertices, boolean randomizeConstraints);
 //};
 
-enum DebugDrawModes   {
+enum PHY_ScalarType {
+    "PHY_FLOAT",
+    "PHY_DOUBLE",
+    "PHY_INTEGER",
+    "PHY_SHORT",
+    "PHY_FIXEDPOINT88",
+    "PHY_UCHAR"
+};
+
+enum DebugDrawModes {
     "btIDebugDraw::DBG_NoDebug",
     "btIDebugDraw::DBG_DrawWireframe",
     "btIDebugDraw::DBG_DrawAabb",
@@ -1299,4 +1308,75 @@ enum DebugDrawModes   {
     "btIDebugDraw::DBG_DrawNormals",
     "btIDebugDraw::DBG_DrawFrames",
     "btIDebugDraw::DBG_MAX_DEBUG_DRAW_MODE"
+};
+
+enum CollisionFlags {
+    "btCollisionObject::CF_DYNAMIC_OBJECT",
+    "btCollisionObject::CF_STATIC_OBJECT",
+    "btCollisionObject::CF_KINEMATIC_OBJECT",
+    "btCollisionObject::CF_NO_CONTACT_RESPONSE",
+    "btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK",
+    "btCollisionObject::CF_CHARACTER_OBJECT",
+    "btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT",
+    "btCollisionObject::CF_DISABLE_SPU_COLLISION_PROCESSING",
+    "btCollisionObject::CF_HAS_CONTACT_STIFFNESS_DAMPING",
+    "btCollisionObject::CF_HAS_CUSTOM_DEBUG_RENDERING_COLOR",
+    "btCollisionObject::CF_HAS_FRICTION_ANCHOR",
+    "btCollisionObject::CF_HAS_COLLISION_SOUND_TRIGGER"
+};
+
+enum CollisionObjectTypes {
+    "btCollisionObject::CO_COLLISION_OBJECT",
+    "btCollisionObject::CO_RIGID_BODY",
+    "btCollisionObject::CO_GHOST_OBJECT",
+    "btCollisionObject::CO_SOFT_BODY",
+    "btCollisionObject::CO_HF_FLUID",
+    "btCollisionObject::CO_USER_TYPE",
+    "btCollisionObject::CO_FEATHERSTONE_LINK"
+};
+
+enum AnisotropicFrictionFlags {
+    "btCollisionObject::CF_ANISOTROPIC_FRICTION_DISABLED",
+    "btCollisionObject::CF_ANISOTROPIC_FRICTION",
+    "btCollisionObject::CF_ANISOTROPIC_ROLLING_FRICTION"
+};
+
+enum BroadphaseNativeTypes {
+    "BOX_SHAPE_PROXYTYPE",
+    "TRIANGLE_SHAPE_PROXYTYPE",
+    "TETRAHEDRAL_SHAPE_PROXYTYPE",
+    "CONVEX_TRIANGLEMESH_SHAPE_PROXYTYPE",
+    "CONVEX_HULL_SHAPE_PROXYTYPE",
+    "CONVEX_POINT_CLOUD_SHAPE_PROXYTYPE",
+    "CUSTOM_POLYHEDRAL_SHAPE_TYPE",
+    "IMPLICIT_CONVEX_SHAPES_START_HERE",
+    "SPHERE_SHAPE_PROXYTYPE",
+    "MULTI_SPHERE_SHAPE_PROXYTYPE",
+    "CAPSULE_SHAPE_PROXYTYPE",
+    "CONE_SHAPE_PROXYTYPE",
+    "CONVEX_SHAPE_PROXYTYPE",
+    "CYLINDER_SHAPE_PROXYTYPE",
+    "UNIFORM_SCALING_SHAPE_PROXYTYPE",
+    "MINKOWSKI_SUM_SHAPE_PROXYTYPE",
+    "MINKOWSKI_DIFFERENCE_SHAPE_PROXYTYPE",
+    "BOX_2D_SHAPE_PROXYTYPE",
+    "CONVEX_2D_SHAPE_PROXYTYPE",
+    "CUSTOM_CONVEX_SHAPE_TYPE",
+    "CONCAVE_SHAPES_START_HERE",
+    "TRIANGLE_MESH_SHAPE_PROXYTYPE",
+    "SCALED_TRIANGLE_MESH_SHAPE_PROXYTYPE",
+    "FAST_CONCAVE_MESH_PROXYTYPE",
+    "TERRAIN_SHAPE_PROXYTYPE",
+    "GIMPACT_SHAPE_PROXYTYPE",
+    "MULTIMATERIAL_TRIANGLE_MESH_PROXYTYPE",
+    "EMPTY_SHAPE_PROXYTYPE",
+    "STATIC_PLANE_PROXYTYPE",
+    "CUSTOM_CONCAVE_SHAPE_TYPE",
+    "CONCAVE_SHAPES_END_HERE",
+    "COMPOUND_SHAPE_PROXYTYPE",
+    "SOFTBODY_SHAPE_PROXYTYPE",
+    "HFFLUID_SHAPE_PROXYTYPE",
+    "HFFLUID_BUOYANT_CONVEX_SHAPE_PROXYTYPE",
+    "INVALID_SHAPE_PROXYTYPE",
+    "MAX_BROADPHASE_COLLISION_TYPES"
 };
