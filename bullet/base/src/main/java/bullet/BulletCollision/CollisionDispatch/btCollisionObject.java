@@ -1,4 +1,4 @@
-package bullet.BulletCollision.CollisionDispatch;
+package bullet.bulletcollision.collisiondispatch;
 
 public class btCollisionObject {
     public static final int ACTIVE_TAG = 1;

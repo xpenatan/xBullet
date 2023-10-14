@@ -7,6 +7,11 @@ public class btTransform extends IDLBase {
 
     public static btTransform TMP_1 = new btTransform();
     public static btTransform TMP_2 = new btTransform();
+    public static btTransform TMP_3 = new btTransform();
+
+    public static Matrix4 TMP_M1 = new Matrix4();
+    public static Matrix4 TMP_M2 = new Matrix4();
+    public static Matrix4 TMP_M3 = new Matrix4();
 
     public static btTransform emptyTransform = new btTransform((byte)1);
 
@@ -95,6 +100,30 @@ public class btTransform extends IDLBase {
         m[15] = 1.0;
     */
     private static native void getOpenGLMatrix(long addr, float[] array);
+
+    public static btTransform c_1(Matrix4 in) {
+        return convert(in, TMP_1);
+    }
+
+    public static btTransform c_2(Matrix4 in) {
+        return convert(in, TMP_2);
+    }
+
+    public static btTransform c_3(Matrix4 in) {
+        return convert(in, TMP_3);
+    }
+
+    public static Matrix4 c_1(btTransform in) {
+        return convert(in, TMP_M1);
+    }
+
+    public static Matrix4 c_2(btTransform in) {
+        return convert(in, TMP_M2);
+    }
+
+    public static Matrix4 c_3(btTransform in) {
+        return convert(in, TMP_M3);
+    }
 
     public static btTransform convert(Matrix4 in, btTransform out) {
         out.setFromOpenGLMatrix(in.val);

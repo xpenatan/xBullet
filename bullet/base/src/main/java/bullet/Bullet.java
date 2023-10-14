@@ -24,7 +24,9 @@ public class Bullet {
     public static void dispose() {
         btVector3.TMP_1.dispose();
         btVector3.TMP_2.dispose();
+        btVector3.TMP_3.dispose();
         btTransform.TMP_1.dispose();
         btTransform.TMP_2.dispose();
+        btTransform.TMP_3.dispose();
     }
 }
