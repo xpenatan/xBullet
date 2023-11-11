@@ -27,7 +27,7 @@ public class Main {
         String emscriptenDir = new File("./build/bullet/").getCanonicalPath();
         String cppSourceDir = new File(emscriptenDir + "/bullet/src/").getCanonicalPath();
         String baseJavaDir = new File(".").getAbsolutePath() + "./base/src/main/java";
-        IDLReader idlReader = IDLReader.readIDL(idlPath, cppSourceDir);
+        IDLReader idlReader = IDLReader.readIDL(idlPath);
 
 //        generateClassOnly(idlReader, basePackage, baseJavaDir);
         generateAndBuild(idlReader, basePackage, baseJavaDir, cppSourceDir, idlPath);
@@ -36,9 +36,10 @@ public class Main {
     private static void generateClassOnly(
             IDLReader idlReader,
             String basePackage,
-            String baseJavaDir
+            String baseJavaDir,
+            String cppSourceDir
     ) throws Exception {
-        IDLDefaultCodeParser idlParser = new IDLDefaultCodeParser(basePackage, "C++", idlReader);
+        IDLDefaultCodeParser idlParser = new IDLDefaultCodeParser(basePackage, "C++", idlReader, cppSourceDir);
         idlParser.generateClass = true;
         String genDir = "../core/src/main/java";
         JParser.generate(idlParser, baseJavaDir, genDir);
@@ -63,7 +64,7 @@ public class Main {
         FileHelper.copyDir("src/main/cpp/custom", libDestinationPath);
 
         CppGenerator cppGenerator = new NativeCPPGenerator(libDestinationPath);
-        CppCodeParser cppParser = new CppCodeParser(cppGenerator, idlReader, basePackage);
+        CppCodeParser cppParser = new CppCodeParser(cppGenerator, idlReader, basePackage, cppSourceDir);
         cppParser.generateClass = true;
         JParser.generate(cppParser, baseJavaDir, genDir);
 
@@ -75,13 +76,13 @@ public class Main {
         );
 
         String teaVMgenDir = "../teavm/src/main/java/";
-        TeaVMCodeParser teavmParser = new TeaVMCodeParser(idlReader, libName, basePackage);
+        TeaVMCodeParser teavmParser = new TeaVMCodeParser(idlReader, libName, basePackage, cppSourceDir);
         JParser.generate(teavmParser, baseJavaDir, teaVMgenDir);
 
         JBuilder.build(
                 buildConfig,
                 getWindowBuildTarget(),
-                getEmscriptenBuildTarget(idlPath)
+                getEmscriptenBuildTarget(idlReader)
 //                getAndroidBuildTarget()
         );
     }
@@ -109,10 +110,10 @@ public class Main {
         return multiTarget;
     }
 
-    private static BuildMultiTarget getEmscriptenBuildTarget(String idlPath) {
+    private static BuildMultiTarget getEmscriptenBuildTarget(IDLReader idlReader) {
         BuildMultiTarget multiTarget = new BuildMultiTarget();
 
-        EmscriptenTarget emscriptenTarget = new EmscriptenTarget(idlPath);
+        EmscriptenTarget emscriptenTarget = new EmscriptenTarget(idlReader);
         emscriptenTarget.headerDirs.add("-Isrc/bullet");
         emscriptenTarget.headerDirs.add("-includesrc/bullet/BulletCustom.h");
         emscriptenTarget.cppIncludes.add("**/src/bullet/BulletCollision/**.cpp");

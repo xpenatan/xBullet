@@ -1,4 +1,4 @@
-val moduleName = "bullet-desktop"
+val moduleName = "desktop"
 
 val windowsFile = "$projectDir/../generator/build/c++/libs/windows/bullet64.dll"
 

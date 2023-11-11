@@ -1,4 +1,4 @@
-val moduleName = "bullet-teavm"
+val moduleName = "teavm"
 
 val emscriptenFile = "$projectDir/../generator/build/c++/libs/emscripten/bullet.wasm.js"
 
