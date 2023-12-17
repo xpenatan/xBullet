@@ -94,10 +94,10 @@ public class Main {
         windowsTarget.isStatic = true;
         windowsTarget.addJNI = false;
         windowsTarget.headerDirs.add("-Isrc/bullet/");
-        windowsTarget.cppIncludes.add("**/src/bullet/BulletCollision/**.cpp");
-        windowsTarget.cppIncludes.add("**/src/bullet/BulletDynamics/**.cpp");
-        windowsTarget.cppIncludes.add("**/src/bullet/BulletSoftBody/**.cpp");
-        windowsTarget.cppIncludes.add("**/src/bullet/LinearMath/**.cpp");
+        windowsTarget.cppInclude.add("**/src/bullet/BulletCollision/**.cpp");
+        windowsTarget.cppInclude.add("**/src/bullet/BulletDynamics/**.cpp");
+        windowsTarget.cppInclude.add("**/src/bullet/BulletSoftBody/**.cpp");
+        windowsTarget.cppInclude.add("**/src/bullet/LinearMath/**.cpp");
         windowsTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
 
         multiTarget.add(windowsTarget);
@@ -116,10 +116,10 @@ public class Main {
         EmscriptenTarget emscriptenTarget = new EmscriptenTarget(idlReader);
         emscriptenTarget.headerDirs.add("-Isrc/bullet");
         emscriptenTarget.headerDirs.add("-includesrc/bullet/BulletCustom.h");
-        emscriptenTarget.cppIncludes.add("**/src/bullet/BulletCollision/**.cpp");
-        emscriptenTarget.cppIncludes.add("**/src/bullet/BulletDynamics/**.cpp");
-        emscriptenTarget.cppIncludes.add("**/src/bullet/BulletSoftBody/**.cpp");
-        emscriptenTarget.cppIncludes.add("**/src/bullet/LinearMath/**.cpp");
+        emscriptenTarget.cppInclude.add("**/src/bullet/BulletCollision/**.cpp");
+        emscriptenTarget.cppInclude.add("**/src/bullet/BulletDynamics/**.cpp");
+        emscriptenTarget.cppInclude.add("**/src/bullet/BulletSoftBody/**.cpp");
+        emscriptenTarget.cppInclude.add("**/src/bullet/LinearMath/**.cpp");
         emscriptenTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
 
         multiTarget.add(emscriptenTarget);
@@ -132,10 +132,10 @@ public class Main {
 
         AndroidTarget androidTarget = new AndroidTarget();
         androidTarget.headerDirs.add("src/bullet/");
-        androidTarget.cppIncludes.add("**/src/bullet/BulletCollision/**.cpp");
-        androidTarget.cppIncludes.add("**/src/bullet/BulletDynamics/**.cpp");
-        androidTarget.cppIncludes.add("**/src/bullet/BulletSoftBody/**.cpp");
-        androidTarget.cppIncludes.add("**/src/bullet/LinearMath/**.cpp");
+        androidTarget.cppInclude.add("**/src/bullet/BulletCollision/**.cpp");
+        androidTarget.cppInclude.add("**/src/bullet/BulletDynamics/**.cpp");
+        androidTarget.cppInclude.add("**/src/bullet/BulletSoftBody/**.cpp");
+        androidTarget.cppInclude.add("**/src/bullet/LinearMath/**.cpp");
         androidTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
 
         multiTarget.add(androidTarget);
