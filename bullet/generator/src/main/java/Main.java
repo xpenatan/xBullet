@@ -3,7 +3,6 @@ import com.github.xpenatan.jparser.builder.BuildMultiTarget;
 import com.github.xpenatan.jparser.builder.JBuilder;
 import com.github.xpenatan.jparser.builder.targets.AndroidTarget;
 import com.github.xpenatan.jparser.builder.targets.EmscriptenTarget;
-import com.github.xpenatan.jparser.builder.targets.WindowsMSVSTarget;
 import com.github.xpenatan.jparser.builder.targets.WindowsTarget;
 import com.github.xpenatan.jparser.core.JParser;
 import com.github.xpenatan.jparser.core.util.FileHelper;
@@ -11,100 +10,81 @@ import com.github.xpenatan.jparser.cpp.CppCodeParser;
 import com.github.xpenatan.jparser.cpp.CppGenerator;
 import com.github.xpenatan.jparser.cpp.NativeCPPGenerator;
 import com.github.xpenatan.jparser.idl.IDLReader;
-import com.github.xpenatan.jparser.idl.parser.IDLDefaultCodeParser;
 import com.github.xpenatan.jparser.teavm.TeaVMCodeParser;
 import java.io.File;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        generate();
+        generateAndBuild();
     }
 
-    public static void generate() throws Exception {
+    private static void generateAndBuild() throws Exception {
+        String libName = "bullet";
         String basePackage = "bullet";
-        String idlPath = new File("src/main/cpp/bullet.idl").getCanonicalPath();
-        String emscriptenDir = new File("./build/bullet/").getCanonicalPath();
-        String cppSourceDir = new File(emscriptenDir + "/bullet/src/").getCanonicalPath();
-        String baseJavaDir = new File(".").getAbsolutePath() + "./base/src/main/java";
+
+        String bulletPath = new File("./../").getCanonicalPath().replace("\\", "/");
+        String bulletBasePath = bulletPath + "/base";
+        String bulletBuildPath = bulletPath + "/generator";
+        String bulletCPPPath = bulletPath + "/core";
+        String bulletTeavmPath = bulletPath + "/teavm";
+
+        String sourcePath = bulletBuildPath + "/build/bullet/bullet/src";
+
+        String idlPath = bulletBuildPath + "/src/main/cpp/bullet.idl";
         IDLReader idlReader = IDLReader.readIDL(idlPath);
 
-//        generateClassOnly(idlReader, basePackage, baseJavaDir);
-        generateAndBuild(idlReader, basePackage, baseJavaDir, cppSourceDir, idlPath);
-    }
+        String cppBuildPath = bulletBuildPath + "/build/c++";
+        String libsDir = cppBuildPath + "/libs/";
 
-    private static void generateClassOnly(
-            IDLReader idlReader,
-            String basePackage,
-            String baseJavaDir,
-            String cppSourceDir
-    ) throws Exception {
-        IDLDefaultCodeParser idlParser = new IDLDefaultCodeParser(basePackage, "C++", idlReader, cppSourceDir);
-        idlParser.generateClass = true;
-        String genDir = "../core/src/main/java";
-        JParser.generate(idlParser, baseJavaDir, genDir);
-    }
-
-    private static void generateAndBuild(
-            IDLReader idlReader,
-            String basePackage,
-            String baseJavaDir,
-            String cppSourceDir,
-            String idlPath
-    ) throws Exception {
-        String libName = "bullet";
-
-        String libsDir = new File("./build/c++/libs/").getCanonicalPath();
-        String genDir = "../core/src/main/java";
-        String libBuildPath = new File("./build/c++/").getCanonicalPath();
-        String cppDestinationPath = libBuildPath + "/src";
+        String cppDestinationPath = cppBuildPath + "/src";
         String libDestinationPath = cppDestinationPath + "/bullet";
+        String baseJavaDir = bulletBasePath + "/src/main/java";
 
-        FileHelper.copyDir(cppSourceDir, libDestinationPath);
+        FileHelper.copyDir(sourcePath, libDestinationPath);
         FileHelper.copyDir("src/main/cpp/custom", libDestinationPath);
 
         CppGenerator cppGenerator = new NativeCPPGenerator(libDestinationPath);
-        CppCodeParser cppParser = new CppCodeParser(cppGenerator, idlReader, basePackage, cppSourceDir);
+        CppCodeParser cppParser = new CppCodeParser(cppGenerator, idlReader, basePackage, sourcePath);
         cppParser.generateClass = true;
-        JParser.generate(cppParser, baseJavaDir, genDir);
+        JParser.generate(cppParser, baseJavaDir, bulletCPPPath + "/src/main/java");
 
         BuildConfig buildConfig = new BuildConfig(
                 cppDestinationPath,
-                libBuildPath,
+                cppBuildPath,
                 libsDir,
                 libName
         );
 
-        String teaVMgenDir = "../teavm/src/main/java/";
-        TeaVMCodeParser teavmParser = new TeaVMCodeParser(idlReader, libName, basePackage, cppSourceDir);
-        JParser.generate(teavmParser, baseJavaDir, teaVMgenDir);
+        TeaVMCodeParser teavmParser = new TeaVMCodeParser(idlReader, libName, basePackage, sourcePath);
+        JParser.generate(teavmParser, baseJavaDir, bulletTeavmPath + "/src/main/java");
 
         JBuilder.build(
                 buildConfig,
-                getWindowBuildTarget(),
+                getWindowBuildTarget(cppBuildPath),
                 getEmscriptenBuildTarget(idlReader)
 //                getAndroidBuildTarget()
         );
     }
 
-    private static BuildMultiTarget getWindowBuildTarget() {
+    private static BuildMultiTarget getWindowBuildTarget(String cppBuildPath) {
         BuildMultiTarget multiTarget = new BuildMultiTarget();
 
         WindowsTarget windowsTarget = new WindowsTarget();
         windowsTarget.isStatic = true;
-        windowsTarget.addJNI = false;
         windowsTarget.headerDirs.add("-Isrc/bullet/");
         windowsTarget.cppInclude.add("**/src/bullet/BulletCollision/**.cpp");
         windowsTarget.cppInclude.add("**/src/bullet/BulletDynamics/**.cpp");
         windowsTarget.cppInclude.add("**/src/bullet/BulletSoftBody/**.cpp");
         windowsTarget.cppInclude.add("**/src/bullet/LinearMath/**.cpp");
         windowsTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
-
         multiTarget.add(windowsTarget);
 
         WindowsTarget glueTarget = new WindowsTarget();
-        glueTarget.linkerFlags.add("../../libs/windows/bullet64.a");
+        glueTarget.addJNIHeaders();
         glueTarget.headerDirs.add("-Isrc/bullet/");
+        glueTarget.cppInclude.add(cppBuildPath + "/src/jniglue/JNIGlue.cpp");
+        glueTarget.linkerFlags.add(cppBuildPath + "/libs/windows/bullet64.a");
         multiTarget.add(glueTarget);
 
         return multiTarget;

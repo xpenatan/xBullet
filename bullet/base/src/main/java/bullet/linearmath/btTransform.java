@@ -21,11 +21,11 @@ public class btTransform extends IDLBase {
     }
 
     /*[-IDL_SKIP] */
-    public void setFromOpenGLMatrix(idl.helper.FloatArray array) {
+    public void setFromOpenGLMatrix(idl.helper.IDLFloatArray array) {
     }
 
     /*[-IDL_SKIP] */
-    public void getOpenGLMatrix(idl.helper.FloatArray array) {
+    public void getOpenGLMatrix(idl.helper.IDLFloatArray array) {
     }
 
     public void setFromOpenGLMatrix(float[] m) {
