@@ -49,15 +49,10 @@ public class Main {
         cppParser.generateClass = true;
         JParser.generate(cppParser, baseJavaDir, bulletCPPPath + "/src/main/java");
 
-        BuildConfig buildConfig = new BuildConfig(
-                cppDestinationPath,
-                cppBuildPath,
-                libsDir,
-                libName
-        );
-
         TeaVMCodeParser teavmParser = new TeaVMCodeParser(idlReader, libName, basePackage, sourcePath);
         JParser.generate(teavmParser, baseJavaDir, bulletTeavmPath + "/src/main/java");
+
+        BuildConfig buildConfig = new BuildConfig(cppDestinationPath, cppBuildPath, libsDir, libName);
 
         JBuilder.build(
                 buildConfig,
