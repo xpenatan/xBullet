@@ -1,9 +1,13 @@
-include(":bullet:core")
-include(":bullet:base")
-include(":bullet:generator")
-include(":bullet:teavm")
-include(":bullet:desktop")
-include(":bullet:android")
+include(":bullet:bullet-core")
+include(":bullet:bullet-base")
+include(":bullet:bullet-build")
+include(":bullet:bullet-teavm")
+include(":bullet:bullet-desktop")
+include(":bullet:bullet-android")
+
+// Extension
+include(":extensions:gdx:gdx-utils")
+include(":extensions:gdx:gdx-gl")
 
 include(":examples:basic:core")
 include(":examples:basic:desktop")

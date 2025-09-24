@@ -58,10 +58,13 @@ local.properties
 **/webapp/**/*.js
 **/webapp/**/*.wasm
 *.ini
+
+.kotlin/
+
 examples/**/*.xml
 examples/**/*.html
-bullet/teavm/src/main/java/**
-bullet/teavm/src/main/resources/*.js
-bullet/core/src/main/java/**
-bullet/generator/src/main/cpp/bullet
+bullet/bullet-teavm/src/main/java/**
+bullet/bullet-teavm/src/main/resources/*.js
+bullet/bullet-core/src/main/java/**
+bullet/bullet-build/src/main/cpp/bullet
 **/basic/android/libs/

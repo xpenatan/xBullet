@@ -1,0 +1,37 @@
+plugins {
+    id("java-library")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(LibExt.java8Target)
+    targetCompatibility = JavaVersion.toVersion(LibExt.java8Target)
+}
+
+val moduleName = "bullet-core"
+
+dependencies {
+    api("com.github.xpenatan.jParser:loader-core:${LibExt.jParserVersion}")
+
+    implementation("com.badlogicgames.gdx:gdx:${LibExt.gdxVersion}")
+}
+
+tasks.named("clean") {
+    doFirst {
+        val srcPath = "$projectDir/src/main/java"
+        project.delete(files(srcPath))
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            artifactId = moduleName
+            from(components["java"])
+        }
+    }
+}

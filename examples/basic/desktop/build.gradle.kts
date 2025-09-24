@@ -1,7 +1,13 @@
 import java.io.File
 
-val mainClassName = "com.github.xpenatan.gdx.examples.bullet.Main"
-val assetsDir = File("$projectDir/assets");
+plugins {
+    id("java-library")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(LibExt.java8Target)
+    targetCompatibility = JavaVersion.toVersion(LibExt.java8Target)
+}
 
 dependencies {
     implementation(project(":examples:basic:core"))
@@ -9,12 +15,15 @@ dependencies {
     implementation("com.badlogicgames.gdx:gdx-backend-lwjgl:${LibExt.gdxVersion}")
 
     // gdx-teavm Version
-    implementation(project(":bullet:desktop"))
+    implementation(project(":bullet:bullet-desktop"))
 }
 
-tasks.register<JavaExec>("run_basic_desktop") {
+val mainClassName = "bullet.examples.basic.Main"
+val assetsDir = File("../assets");
+
+tasks.register<JavaExec>("bullet_basic_run_desktop") {
     dependsOn("classes")
-    group = "examples-desktop"
+    group = "bullet_examples_desktop"
     description = "Run bullet example"
     mainClass.set(mainClassName)
     classpath = sourceSets["main"].runtimeClasspath
