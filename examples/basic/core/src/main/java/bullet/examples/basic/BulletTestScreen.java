@@ -38,7 +38,7 @@ import bullet.bulletdynamics.dynamics.btRigidBody;
 import bullet.linearmath.btVector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import bullet.gdx.gl.GdxGLDebugRenderer;
+import bullet.gdx.gl.btDebugRendererGdxGL;
 
 public class BulletTestScreen extends ScreenAdapter implements InputProcessor {
 
@@ -57,7 +57,7 @@ public class BulletTestScreen extends ScreenAdapter implements InputProcessor {
 
     Array<btRigidBody> colObjs = new Array<>();
     btDiscreteDynamicsWorld world;
-    GdxGLDebugRenderer debugDrawer;
+    btDebugRendererGdxGL debugDrawer;
     btDefaultCollisionConfiguration collisionConfiguration;
     btCollisionDispatcher dispatcher;
     btDbvtBroadphase broadphase;
@@ -90,9 +90,9 @@ public class BulletTestScreen extends ScreenAdapter implements InputProcessor {
         btVector3 gravity = new btVector3(0, -10, 0);
         world.setGravity(gravity);
 
-        debugDrawer = new GdxGLDebugRenderer();
+        debugDrawer = new btDebugRendererGdxGL();
         world.setDebugDrawer(debugDrawer);
-//        debugDrawer.setDebugMode(DebugDrawModes.DBG_MAX_DEBUG_DRAW_MODE | DebugDrawModes.DBG_DrawContactPoints);
+        debugDrawer.setDebugMode(DebugDrawModes.DBG_MAX_DEBUG_DRAW_MODE.or(DebugDrawModes.DBG_DrawContactPoints).getValue());
 //        raycast = new ClosestRayResultCallback(Vector3.Zero, Vector3.Z);
 
         camera = new PerspectiveCamera();
@@ -244,7 +244,7 @@ public class BulletTestScreen extends ScreenAdapter implements InputProcessor {
         modelBatch.end();
 
         if(debug) {
-            debugDrawer.debugDrawWorld(world);
+            debugDrawer.debugDrawWorld(camera, world);
         }
 
         batch.begin();

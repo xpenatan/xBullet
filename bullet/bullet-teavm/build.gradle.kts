@@ -9,7 +9,7 @@ java {
 
 val moduleName = "bullet-teavm"
 
-val emscriptenFile = "$projectDir/../generator/build/c++/libs/emscripten/bullet.wasm.js"
+val emscriptenFile = "$projectDir/../bullet-build/build/c++/libs/emscripten/bullet.wasm.js"
 
 tasks.jar {
     from(emscriptenFile)

@@ -15,7 +15,12 @@ public class BulletInitScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        BulletLoader.init((bulletSuccess, e2) -> bulletInit = bulletSuccess);
+        BulletLoader.init((bulletSuccess, e2) -> {
+            bulletInit = bulletSuccess;
+            if(e2 != null) {
+                e2.printStackTrace();
+            }
+        });
     }
 
     @Override

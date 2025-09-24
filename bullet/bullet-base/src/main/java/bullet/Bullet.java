@@ -7,10 +7,10 @@ package bullet;
 /*[-IDL_SKIP]*/
 public class Bullet {
 
-    /* [-C++;-NATIVE]
+    /* [-JNI;-NATIVE]
          return CustomCode::GetBTVersion();
     */
-    /* [-teaVM;-NATIVE]
+    /* [-TEAVM;-NATIVE]
         return bullet.CustomCode.prototype.GetBTVersion();
     */
     public static native int btGetVersion();
