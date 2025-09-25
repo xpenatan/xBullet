@@ -3,9 +3,11 @@ plugins {
     kotlin("android")
 }
 
+val moduleName = "bullet-android"
+
 android {
     namespace = "bullet"
-    compileSdk = 33
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 21
@@ -13,17 +15,28 @@ android {
 
     sourceSets {
         named("main") {
-            jniLibs.srcDirs("$projectDir/../generator/build/c++/libs/android")
+            jniLibs.srcDirs("$projectDir/../bullet-build/build/c++/libs/android")
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.toVersion(LibExt.java8Target)
+        targetCompatibility = JavaVersion.toVersion(LibExt.java8Target)
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = LibExt.java8Target
     }
 }
 
 dependencies {
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            artifactId = moduleName
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
 }

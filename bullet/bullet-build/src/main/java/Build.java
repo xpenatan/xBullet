@@ -1,4 +1,5 @@
 import com.github.xpenatan.jparser.builder.BuildMultiTarget;
+import com.github.xpenatan.jparser.builder.targets.AndroidTarget;
 import com.github.xpenatan.jparser.builder.targets.EmscriptenTarget;
 import com.github.xpenatan.jparser.builder.targets.WindowsMSVCTarget;
 import com.github.xpenatan.jparser.builder.targets.WindowsTarget;
@@ -35,9 +36,9 @@ public class Build {
 //                if(op.containsArg("macArm")) {
 //                    targets.add(getMacTarget(op, true));
 //                }
-//                if(op.containsArg("android")) {
-//                    targets.add(getAndroidTarget(op));
-//                }
+                if(op.containsArg("android")) {
+                    targets.add(getAndroidBuildTarget(op));
+                }
 //                if(op.containsArg("iOS")) {
 //                    targets.add(getIOSTarget(op));
 //                }
@@ -143,20 +144,47 @@ public class Build {
 
         return multiTarget;
     }
-//
-//    private static BuildMultiTarget getAndroidBuildTarget() {
-//        BuildMultiTarget multiTarget = new BuildMultiTarget();
-//
-//        AndroidTarget androidTarget = new AndroidTarget();
-//        androidTarget.headerDirs.add("src/bullet/");
-//        androidTarget.cppInclude.add("**/src/bullet/BulletCollision/**.cpp");
-//        androidTarget.cppInclude.add("**/src/bullet/BulletDynamics/**.cpp");
-//        androidTarget.cppInclude.add("**/src/bullet/BulletSoftBody/**.cpp");
-//        androidTarget.cppInclude.add("**/src/bullet/LinearMath/**.cpp");
-//        androidTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
-//
-//        multiTarget.add(androidTarget);
-//
-//        return multiTarget;
-//    }
+
+    private static BuildMultiTarget getAndroidBuildTarget(BuildToolOptions op) {
+        BuildMultiTarget multiTarget = new BuildMultiTarget();
+        String sourceDir = op.getSourceDir();
+        String libBuildCPPPath = op.getModuleBuildCPPPath();
+
+        AndroidTarget.ApiLevel apiLevel = AndroidTarget.ApiLevel.Android_10_29;
+        ArrayList<AndroidTarget.Target> targets = new ArrayList<>();
+
+        targets.add(AndroidTarget.Target.x86);
+        targets.add(AndroidTarget.Target.x86_64);
+        targets.add(AndroidTarget.Target.armeabi_v7a);
+        targets.add(AndroidTarget.Target.arm64_v8a);
+
+        for(int i = 0; i < targets.size(); i++) {
+            AndroidTarget.Target target = targets.get(i);
+
+            // Make a static library
+            AndroidTarget androidTarget = new AndroidTarget(target, apiLevel);
+            androidTarget.isStatic = true;
+            androidTarget.headerDirs.add("-I" + sourceDir);
+            androidTarget.headerDirs.add("-I" + sourceDir);
+            androidTarget.cppInclude.add(sourceDir + "/BulletCollision/**.cpp");
+            androidTarget.cppInclude.add(sourceDir + "/BulletDynamics/**.cpp");
+            androidTarget.cppInclude.add(sourceDir + "/BulletSoftBody/**.cpp");
+            androidTarget.cppInclude.add(sourceDir + "/LinearMath/**.cpp");
+            androidTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
+            multiTarget.add(androidTarget);
+
+            // Compile glue code and link
+            AndroidTarget linkTarget = new AndroidTarget(target, apiLevel);
+            linkTarget.addJNIHeaders();
+            linkTarget.headerDirs.add("-I" + sourceDir);
+            linkTarget.headerDirs.add("-I" + op.getCustomSourceDir());
+            linkTarget.cppInclude.add(libBuildCPPPath + "/src/jniglue/JNIGlue.cpp");
+            linkTarget.linkerFlags.add(libBuildCPPPath + "/libs/android/" + target.getFolder() +"/lib" + op.libName + ".a");
+            linkTarget.cppFlags.add("-DBT_USE_INVERSE_DYNAMICS_WITH_BULLET2");
+            linkTarget.linkerFlags.add("-Wl,-z,max-page-size=16384");
+            multiTarget.add(linkTarget);
+        }
+
+        return multiTarget;
+    }
 }

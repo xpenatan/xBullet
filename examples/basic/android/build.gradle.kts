@@ -5,19 +5,18 @@ plugins {
 
 android {
     namespace = "bullet.example"
-    compileSdk = 33
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "bullet.example"
         minSdk = 24
-        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
     }
 
     sourceSets {
         named("main") {
-            assets.srcDirs(project.file("../desktop/assets"))
+            assets.srcDirs(project.file("../assets"))
             jniLibs.srcDirs("libs")
         }
     }
@@ -47,7 +46,13 @@ dependencies {
     natives("com.badlogicgames.gdx:gdx-platform:${LibExt.gdxVersion}:natives-x86")
 
     implementation(project(":examples:basic:core"))
-    implementation(project(":bullet:bullet-android"))
+
+    if(LibExt.useRepoLibs) {
+        implementation("com.github.xpenatan.xBullet:bullet-android:-SNAPSHOT")
+    }
+    else {
+        implementation(project(":bullet:bullet-android"))
+    }
 }
 
 

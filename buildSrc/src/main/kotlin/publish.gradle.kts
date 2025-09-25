@@ -7,7 +7,8 @@ var libProjects = mutableSetOf(
     project(":extensions:gdx:gdx-gl"),
     project(":bullet:bullet-core"),
     project(":bullet:bullet-teavm"),
-    project(":bullet:bullet-desktop")
+    project(":bullet:bullet-desktop"),
+    project(":bullet:bullet-android"),
 )
 
 LibExt.isRelease = gradle.startParameter.taskNames.any { it == "publishRelease" }
