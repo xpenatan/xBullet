@@ -154,7 +154,7 @@ jobs:
 
   upload_natives:
     name: Upload Natives
-    needs: [build_windows]
+    needs: [build_windows, build_teavm, build_android]
     runs-on: ubuntu-latest
 
     steps:
