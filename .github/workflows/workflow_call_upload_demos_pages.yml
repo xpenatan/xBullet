@@ -1,0 +1,49 @@
+name: Upload demos
+
+on:
+  workflow_call:
+
+  workflow_dispatch:
+
+env:
+  CENTRAL_PORTAL_USERNAME: ${{ secrets.CENTRAL_PORTAL_USERNAME }}
+  CENTRAL_PORTAL_PASSWORD: ${{ secrets.CENTRAL_PORTAL_PASSWORD }}
+  SIGNING_KEY: ${{ secrets.PGP_SECRET }}
+  SIGNING_PASSWORD: ${{ secrets.PGP_PASSPHRASE }}
+
+jobs:
+  upload_demos_linux:
+    name: Upload Demos
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+#      - name: Cancel Previous Runs
+#        uses: styfle/cancel-workflow-action@0.12.1
+#        with:
+#          access_token: ${{ github.token }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: "corretto"
+          java-version: 17
+
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
+
+      - name: Build OpenGL Web Samples
+        run: |
+          ./gradlew :examples:basic:teavm:bullet_basic_build_teavm
+
+      - name: Upload OpenGL Samples to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./examples/basic/teavm/build/dist/webapp
+          destination_dir: ./snapshot/gl/basic
+          publish_branch: gh-pages

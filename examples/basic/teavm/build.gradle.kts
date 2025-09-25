@@ -19,7 +19,13 @@ dependencies {
     implementation(project(":examples:basic:core"))
     implementation("com.badlogicgames.gdx:gdx:${LibExt.gdxVersion}")
     implementation("com.github.xpenatan.gdx-teavm:backend-teavm:${LibExt.gdxTeaVMVersion}")
-    implementation(project(":bullet:bullet-teavm"))
+
+    if(LibExt.useRepoLibs) {
+        implementation("com.github.xpenatan.xBullet:bullet-teavm:-SNAPSHOT")
+    }
+    else {
+        implementation(project(":bullet:bullet-teavm"))
+    }
 }
 
 tasks.register<JavaExec>("bullet_basic_build_teavm") {

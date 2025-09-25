@@ -14,8 +14,12 @@ dependencies {
     implementation("com.badlogicgames.gdx:gdx-platform:${LibExt.gdxVersion}:natives-desktop")
     implementation("com.badlogicgames.gdx:gdx-backend-lwjgl:${LibExt.gdxVersion}")
 
-    // gdx-teavm Version
-    implementation(project(":bullet:bullet-desktop"))
+    if(LibExt.useRepoLibs) {
+        implementation("com.github.xpenatan.xBullet:bullet-desktop:-SNAPSHOT")
+    }
+    else {
+        implementation(project(":bullet:bullet-desktop"))
+    }
 }
 
 val mainClassName = "bullet.examples.basic.Main"
