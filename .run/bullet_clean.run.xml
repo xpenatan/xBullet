@@ -10,7 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="bullet_clean" />
+          <option value="clean" />
         </list>
       </option>
       <option name="vmOptions" />
