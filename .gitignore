@@ -32,9 +32,4 @@ libs/
 *.ini
 .kotlin/
 
-
-bullet/bullet-core/src/main/java/**
-bullet/bullet-teavm/src/main/java/**
-bullet/bullet-teavm/src/main/resources/*.js
-bullet/bullet-build/src/main/cpp/bullet
-**/basic/android/libs/
+**/webapp/**

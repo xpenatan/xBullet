@@ -11,8 +11,7 @@ val moduleName = "bullet-core"
 
 dependencies {
     api("com.github.xpenatan.jParser:loader-core:${LibExt.jParserVersion}")
-
-    implementation("com.badlogicgames.gdx:gdx:${LibExt.gdxVersion}")
+    api("com.github.xpenatan.jParser:idl-core:${LibExt.jParserVersion}")
 }
 
 tasks.named("clean") {
