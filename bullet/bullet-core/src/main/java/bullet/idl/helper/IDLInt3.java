@@ -18,50 +18,74 @@ public class IDLInt3 extends IDLIntArray {
         return new IDLInt3((byte) 1, (char) 1);
     }
 
-    private IDLInt3(byte b, char c) {
-        super(b, c);
+    protected IDLInt3(byte b, char c) {
+        super((byte) 1, (char) 1);
     }
 
     public IDLInt3() {
-        super(3);
+        super((byte) 1, (char) 1);
+        long addr = internal_native_create();
+        internal_reset(addr, true);
     }
 
-    public IDLInt3 set(int value0, int value1, int value2) {
-        setValue(0, value0);
-        setValue(1, value1);
-        setValue(2, value2);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      return (jlong)new IDLInt3();
+    */
+    public static native long internal_native_create();
+
+    protected void deleteNative() {
+        internal_native_deleteNative(native_address);
     }
 
-    public IDLInt3 set0(int value) {
-        setValue(0, value);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      IDLInt3* nativeObject = (IDLInt3*)this_addr;
+      delete nativeObject;
+    */
+    public static native void internal_native_deleteNative(long this_addr);
+
+    public void set(int x, int y, int z) {
+        internal_native_set(native_address, x, y, z);
     }
 
-    public IDLInt3 set1(int value) {
-        setValue(1, value);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      IDLInt3* nativeObject = (IDLInt3*)this_addr;
+      nativeObject->set((int)x, (int)y, (int)z);
+    */
+    public static native void internal_native_set(long this_addr, int x, int y, int z);
+
+    public int getX() {
+        return internal_native_getX(native_address);
     }
 
-    public IDLInt3 set2(int value) {
-        setValue(2, value);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      IDLInt3* nativeObject = (IDLInt3*)this_addr;
+      return nativeObject->getX();
+    */
+    public static native int internal_native_getX(long this_addr);
+
+    public int getY() {
+        return internal_native_getY(native_address);
     }
 
-    public int get0() {
-        return getValue(0);
+    /*
+      [-JNI;-NATIVE]
+      IDLInt3* nativeObject = (IDLInt3*)this_addr;
+      return nativeObject->getY();
+    */
+    public static native int internal_native_getY(long this_addr);
+
+    public int getZ() {
+        return internal_native_getZ(native_address);
     }
 
-    public int get1() {
-        return getValue(1);
-    }
-
-    public int get2() {
-        return getValue(2);
-    }
-
-    @Override
-    public String toString() {
-        return get0() + ", " + get1() + ", " + get2();
-    }
+    /*
+      [-JNI;-NATIVE]
+      IDLInt3* nativeObject = (IDLInt3*)this_addr;
+      return nativeObject->getZ();
+    */
+    public static native int internal_native_getZ(long this_addr);
 }

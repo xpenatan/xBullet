@@ -5,8 +5,6 @@
  *-------------------------------------------------------*/
 package gen.bullet;
 
-import java.util.Map;
-import java.util.HashMap;
 import com.github.xpenatan.jParser.idl.IDLEnum;
 
 public enum AnisotropicFrictionFlags implements IDLEnum<AnisotropicFrictionFlags> {
@@ -33,16 +31,6 @@ public enum AnisotropicFrictionFlags implements IDLEnum<AnisotropicFrictionFlags
 
     public AnisotropicFrictionFlags getCustom() {
         return CUSTOM;
-    }
-
-    public static final Map<Integer, AnisotropicFrictionFlags> MAP = new HashMap<>();
-
-    static {
-        for (AnisotropicFrictionFlags value : values()) {
-            if (value != CUSTOM) {
-                MAP.put(value.value, value);
-            }
-        }
     }
 
     /*[-TEAVM;-NATIVE]

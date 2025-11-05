@@ -18,60 +18,97 @@ public class IDLLong4 extends IDLLongArray {
         return new IDLLong4((byte) 1, (char) 1);
     }
 
-    private IDLLong4(byte b, char c) {
-        super(b, c);
+    protected IDLLong4(byte b, char c) {
+        super((byte) 1, (char) 1);
     }
 
     public IDLLong4() {
-        super(4);
+        super((byte) 1, (char) 1);
+        int addr = internal_native_create();
+        internal_reset(addr, true);
     }
 
-    public IDLLong4 set(long value0, long value1, long value2, long value3) {
-        setValue(0, value0);
-        setValue(1, value1);
-        setValue(2, value2);
-        setValue(3, value3);
-        return this;
+    /*
+      [-TEAVM;-NATIVE]
+      var jsObj = new bullet.IDLLong4();
+      return bullet.getPointer(jsObj);
+    */
+    @org.teavm.jso.JSBody(script = "var jsObj = new bullet.IDLLong4();return bullet.getPointer(jsObj);")
+    public static native int internal_native_create();
+
+    protected void deleteNative() {
+        internal_native_deleteNative(native_address);
     }
 
-    public IDLLong4 set0(long value) {
-        setValue(0, value);
-        return this;
+    /*
+      [-TEAVM;-NATIVE]
+      var jsObj = bullet.wrapPointer(this_addr, bullet.IDLLong4);
+      bullet.destroy(jsObj);
+    */
+    @org.teavm.jso.JSBody(params = {"this_addr"}, script = "var jsObj = bullet.wrapPointer(this_addr, bullet.IDLLong4);bullet.destroy(jsObj);")
+    public static native void internal_native_deleteNative(int this_addr);
+
+    public void set(long x, long y, long z, long w) {
+        internal_native_set(native_address, (int) x, (int) y, (int) z, (int) w);
     }
 
-    public IDLLong4 set1(long value) {
-        setValue(1, value);
-        return this;
+    /*
+      [-TEAVM;-NATIVE]
+      var jsObj = bullet.wrapPointer(this_addr, bullet.IDLLong4);
+      jsObj.set(x, y, z, w);
+    */
+    @org.teavm.jso.JSBody(params = {"this_addr", "x", "y", "z", "w"}, script = "var jsObj = bullet.wrapPointer(this_addr, bullet.IDLLong4);jsObj.set(x, y, z, w);")
+    public static native void internal_native_set(int this_addr, int x, int y, int z, int w);
+
+    public long getX() {
+        return internal_native_getX(native_address);
     }
 
-    public IDLLong4 set2(long value) {
-        setValue(2, value);
-        return this;
+    /*
+      [-TEAVM;-NATIVE]
+      var jsObj = bullet.wrapPointer(this_addr, bullet.IDLLong4);
+      var returnedJSObj = jsObj.getX();
+      return returnedJSObj;
+    */
+    @org.teavm.jso.JSBody(params = {"this_addr"}, script = "var jsObj = bullet.wrapPointer(this_addr, bullet.IDLLong4);var returnedJSObj = jsObj.getX();return returnedJSObj;")
+    public static native int internal_native_getX(int this_addr);
+
+    public long getY() {
+        return internal_native_getY(native_address);
     }
 
-    public IDLLong4 set3(long value) {
-        setValue(3, value);
-        return this;
+    /*
+      [-TEAVM;-NATIVE]
+      var jsObj = bullet.wrapPointer(this_addr, bullet.IDLLong4);
+      var returnedJSObj = jsObj.getY();
+      return returnedJSObj;
+    */
+    @org.teavm.jso.JSBody(params = {"this_addr"}, script = "var jsObj = bullet.wrapPointer(this_addr, bullet.IDLLong4);var returnedJSObj = jsObj.getY();return returnedJSObj;")
+    public static native int internal_native_getY(int this_addr);
+
+    public long getZ() {
+        return internal_native_getZ(native_address);
     }
 
-    public long get0() {
-        return getValue(0);
+    /*
+      [-TEAVM;-NATIVE]
+      var jsObj = bullet.wrapPointer(this_addr, bullet.IDLLong4);
+      var returnedJSObj = jsObj.getZ();
+      return returnedJSObj;
+    */
+    @org.teavm.jso.JSBody(params = {"this_addr"}, script = "var jsObj = bullet.wrapPointer(this_addr, bullet.IDLLong4);var returnedJSObj = jsObj.getZ();return returnedJSObj;")
+    public static native int internal_native_getZ(int this_addr);
+
+    public long getW() {
+        return internal_native_getW(native_address);
     }
 
-    public long get1() {
-        return getValue(1);
-    }
-
-    public long get2() {
-        return getValue(2);
-    }
-
-    public long get3() {
-        return getValue(3);
-    }
-
-    @Override
-    public String toString() {
-        return get0() + ", " + get1() + ", " + get2() + ", " + get3();
-    }
+    /*
+      [-TEAVM;-NATIVE]
+      var jsObj = bullet.wrapPointer(this_addr, bullet.IDLLong4);
+      var returnedJSObj = jsObj.getW();
+      return returnedJSObj;
+    */
+    @org.teavm.jso.JSBody(params = {"this_addr"}, script = "var jsObj = bullet.wrapPointer(this_addr, bullet.IDLLong4);var returnedJSObj = jsObj.getW();return returnedJSObj;")
+    public static native int internal_native_getW(int this_addr);
 }

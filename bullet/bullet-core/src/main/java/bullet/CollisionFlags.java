@@ -5,8 +5,6 @@
  *-------------------------------------------------------*/
 package bullet;
 
-import java.util.Map;
-import java.util.HashMap;
 import com.github.xpenatan.jParser.idl.IDLEnum;
 
 public enum CollisionFlags implements IDLEnum<CollisionFlags> {
@@ -45,16 +43,6 @@ public enum CollisionFlags implements IDLEnum<CollisionFlags> {
 
     public CollisionFlags getCustom() {
         return CUSTOM;
-    }
-
-    public static final Map<Integer, CollisionFlags> MAP = new HashMap<>();
-
-    static {
-        for (CollisionFlags value : values()) {
-            if (value != CUSTOM) {
-                MAP.put(value.value, value);
-            }
-        }
     }
 
     /*[-JNI;-NATIVE]

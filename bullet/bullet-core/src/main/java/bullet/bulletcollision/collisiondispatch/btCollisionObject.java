@@ -661,7 +661,7 @@ return nativeObject->getUserIndex();
 
     /*[-JNI;-NATIVE]
 btCollisionObject* nativeObject = (btCollisionObject*)this_addr;
-nativeObject->setUserPointer((void** )userPointer_addr);
+nativeObject->setUserPointer((void*)userPointer_addr);
 */
     public static native void internal_native_setUserPointer(long this_addr, long userPointer_addr);
 

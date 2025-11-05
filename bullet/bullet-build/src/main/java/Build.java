@@ -1,12 +1,11 @@
-import com.github.xpenatan.jparser.builder.BuildMultiTarget;
-import com.github.xpenatan.jparser.builder.targets.AndroidTarget;
-import com.github.xpenatan.jparser.builder.targets.EmscriptenTarget;
-import com.github.xpenatan.jparser.builder.targets.WindowsMSVCTarget;
-import com.github.xpenatan.jparser.builder.targets.WindowsTarget;
-import com.github.xpenatan.jparser.builder.tool.BuildToolListener;
-import com.github.xpenatan.jparser.builder.tool.BuildToolOptions;
-import com.github.xpenatan.jparser.builder.tool.BuilderTool;
-import com.github.xpenatan.jparser.idl.IDLReader;
+import com.github.xpenatan.jParser.builder.BuildMultiTarget;
+import com.github.xpenatan.jParser.builder.targets.AndroidTarget;
+import com.github.xpenatan.jParser.builder.targets.EmscriptenTarget;
+import com.github.xpenatan.jParser.builder.targets.WindowsMSVCTarget;
+import com.github.xpenatan.jParser.builder.tool.BuildToolListener;
+import com.github.xpenatan.jParser.builder.tool.BuildToolOptions;
+import com.github.xpenatan.jParser.builder.tool.BuilderTool;
+import com.github.xpenatan.jParser.idl.IDLReader;
 import java.util.ArrayList;
 
 public class Build {

@@ -13,11 +13,11 @@ object LibExt {
     const val java8Target = "1.8"
     const val java11Target = "11"
 
-    const val gdxVersion = "1.13.5"
-    const val teaVMVersion = "0.12.3"
+    const val gdxVersion = "1.14.0"
+    const val teaVMVersion = "0.13.0"
 
-    const val jParserVersion = "-SNAPSHOT"
-    const val gdxTeaVMVersion = "-SNAPSHOT"
+    const val jParserVersion = "1.0.0-b26"
+    const val gdxTeaVMVersion = "1.4.0"
 
     const val useRepoLibs = true
 }

@@ -18,50 +18,74 @@ public class IDLLong3 extends IDLLongArray {
         return new IDLLong3((byte) 1, (char) 1);
     }
 
-    private IDLLong3(byte b, char c) {
-        super(b, c);
+    protected IDLLong3(byte b, char c) {
+        super((byte) 1, (char) 1);
     }
 
     public IDLLong3() {
-        super(3);
+        super((byte) 1, (char) 1);
+        long addr = internal_native_create();
+        internal_reset(addr, true);
     }
 
-    public IDLLong3 set(long value0, long value1, long value2) {
-        setValue(0, value0);
-        setValue(1, value1);
-        setValue(2, value2);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      return (jlong)new IDLLong3();
+    */
+    public static native long internal_native_create();
+
+    protected void deleteNative() {
+        internal_native_deleteNative(native_address);
     }
 
-    public IDLLong3 set0(long value) {
-        setValue(0, value);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      IDLLong3* nativeObject = (IDLLong3*)this_addr;
+      delete nativeObject;
+    */
+    public static native void internal_native_deleteNative(long this_addr);
+
+    public void set(long x, long y, long z) {
+        internal_native_set(native_address, x, y, z);
     }
 
-    public IDLLong3 set1(long value) {
-        setValue(1, value);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      IDLLong3* nativeObject = (IDLLong3*)this_addr;
+      nativeObject->set(x, y, z);
+    */
+    public static native void internal_native_set(long this_addr, long x, long y, long z);
+
+    public long getX() {
+        return internal_native_getX(native_address);
     }
 
-    public IDLLong3 set2(long value) {
-        setValue(2, value);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      IDLLong3* nativeObject = (IDLLong3*)this_addr;
+      return nativeObject->getX();
+    */
+    public static native long internal_native_getX(long this_addr);
+
+    public long getY() {
+        return internal_native_getY(native_address);
     }
 
-    public long get0() {
-        return getValue(0);
+    /*
+      [-JNI;-NATIVE]
+      IDLLong3* nativeObject = (IDLLong3*)this_addr;
+      return nativeObject->getY();
+    */
+    public static native long internal_native_getY(long this_addr);
+
+    public long getZ() {
+        return internal_native_getZ(native_address);
     }
 
-    public long get1() {
-        return getValue(1);
-    }
-
-    public long get2() {
-        return getValue(2);
-    }
-
-    @Override
-    public String toString() {
-        return get0() + ", " + get1() + ", " + get2();
-    }
+    /*
+      [-JNI;-NATIVE]
+      IDLLong3* nativeObject = (IDLLong3*)this_addr;
+      return nativeObject->getZ();
+    */
+    public static native long internal_native_getZ(long this_addr);
 }

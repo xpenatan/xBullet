@@ -5,8 +5,6 @@
  *-------------------------------------------------------*/
 package gen.bullet;
 
-import java.util.Map;
-import java.util.HashMap;
 import com.github.xpenatan.jParser.idl.IDLEnum;
 
 public enum BroadphaseNativeTypes implements IDLEnum<BroadphaseNativeTypes> {
@@ -70,16 +68,6 @@ public enum BroadphaseNativeTypes implements IDLEnum<BroadphaseNativeTypes> {
 
     public BroadphaseNativeTypes getCustom() {
         return CUSTOM;
-    }
-
-    public static final Map<Integer, BroadphaseNativeTypes> MAP = new HashMap<>();
-
-    static {
-        for (BroadphaseNativeTypes value : values()) {
-            if (value != CUSTOM) {
-                MAP.put(value.value, value);
-            }
-        }
     }
 
     /*[-TEAVM;-NATIVE]

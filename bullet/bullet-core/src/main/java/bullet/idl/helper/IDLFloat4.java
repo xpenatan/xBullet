@@ -18,60 +18,85 @@ public class IDLFloat4 extends IDLFloatArray {
         return new IDLFloat4((byte) 1, (char) 1);
     }
 
-    private IDLFloat4(byte b, char c) {
-        super(b, c);
+    protected IDLFloat4(byte b, char c) {
+        super((byte) 1, (char) 1);
     }
 
     public IDLFloat4() {
-        super(4);
+        super((byte) 1, (char) 1);
+        long addr = internal_native_create();
+        internal_reset(addr, true);
     }
 
-    public IDLFloat4 set(float value0, float value1, float value2, float value3) {
-        setValue(0, value0);
-        setValue(1, value1);
-        setValue(2, value2);
-        setValue(3, value3);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      return (jlong)new IDLFloat4();
+    */
+    public static native long internal_native_create();
+
+    protected void deleteNative() {
+        internal_native_deleteNative(native_address);
     }
 
-    public IDLFloat4 set0(float value) {
-        setValue(0, value);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      IDLFloat4* nativeObject = (IDLFloat4*)this_addr;
+      delete nativeObject;
+    */
+    public static native void internal_native_deleteNative(long this_addr);
+
+    public void set(float x, float y, float z, float w) {
+        internal_native_set(native_address, x, y, z, w);
     }
 
-    public IDLFloat4 set1(float value) {
-        setValue(1, value);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      IDLFloat4* nativeObject = (IDLFloat4*)this_addr;
+      nativeObject->set((float)x, (float)y, (float)z, (float)w);
+    */
+    public static native void internal_native_set(long this_addr, float x, float y, float z, float w);
+
+    public float getX() {
+        return internal_native_getX(native_address);
     }
 
-    public IDLFloat4 set2(float value) {
-        setValue(2, value);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      IDLFloat4* nativeObject = (IDLFloat4*)this_addr;
+      return nativeObject->getX();
+    */
+    public static native float internal_native_getX(long this_addr);
+
+    public float getY() {
+        return internal_native_getY(native_address);
     }
 
-    public IDLFloat4 set3(float value) {
-        setValue(3, value);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      IDLFloat4* nativeObject = (IDLFloat4*)this_addr;
+      return nativeObject->getY();
+    */
+    public static native float internal_native_getY(long this_addr);
+
+    public float getZ() {
+        return internal_native_getZ(native_address);
     }
 
-    public float get0() {
-        return getValue(0);
+    /*
+      [-JNI;-NATIVE]
+      IDLFloat4* nativeObject = (IDLFloat4*)this_addr;
+      return nativeObject->getZ();
+    */
+    public static native float internal_native_getZ(long this_addr);
+
+    public float getW() {
+        return internal_native_getW(native_address);
     }
 
-    public float get1() {
-        return getValue(1);
-    }
-
-    public float get2() {
-        return getValue(2);
-    }
-
-    public float get3() {
-        return getValue(3);
-    }
-
-    @Override
-    public String toString() {
-        return get0() + ", " + get1() + ", " + get2() + ", " + get3();
-    }
+    /*
+      [-JNI;-NATIVE]
+      IDLFloat4* nativeObject = (IDLFloat4*)this_addr;
+      return nativeObject->getW();
+    */
+    public static native float internal_native_getW(long this_addr);
 }

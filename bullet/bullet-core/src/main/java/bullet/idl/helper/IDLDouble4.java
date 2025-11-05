@@ -18,60 +18,85 @@ public class IDLDouble4 extends IDLDoubleArray {
         return new IDLDouble4((byte) 1, (char) 1);
     }
 
-    private IDLDouble4(byte b, char c) {
-        super(b, c);
+    protected IDLDouble4(byte b, char c) {
+        super((byte) 1, (char) 1);
     }
 
     public IDLDouble4() {
-        super(4);
+        super((byte) 1, (char) 1);
+        long addr = internal_native_create();
+        internal_reset(addr, true);
     }
 
-    public IDLDouble4 set(double value0, double value1, double value2, double value3) {
-        setValue(0, value0);
-        setValue(1, value1);
-        setValue(2, value2);
-        setValue(3, value3);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      return (jlong)new IDLDouble4();
+    */
+    public static native long internal_native_create();
+
+    protected void deleteNative() {
+        internal_native_deleteNative(native_address);
     }
 
-    public IDLDouble4 set0(double value) {
-        setValue(0, value);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      IDLDouble4* nativeObject = (IDLDouble4*)this_addr;
+      delete nativeObject;
+    */
+    public static native void internal_native_deleteNative(long this_addr);
+
+    public void set(double x, double y, double z, double w) {
+        internal_native_set(native_address, x, y, z, w);
     }
 
-    public IDLDouble4 set1(double value) {
-        setValue(1, value);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      IDLDouble4* nativeObject = (IDLDouble4*)this_addr;
+      nativeObject->set((double)x, (double)y, (double)z, (double)w);
+    */
+    public static native void internal_native_set(long this_addr, double x, double y, double z, double w);
+
+    public double getX() {
+        return internal_native_getX(native_address);
     }
 
-    public IDLDouble4 set2(double value) {
-        setValue(2, value);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      IDLDouble4* nativeObject = (IDLDouble4*)this_addr;
+      return nativeObject->getX();
+    */
+    public static native double internal_native_getX(long this_addr);
+
+    public double getY() {
+        return internal_native_getY(native_address);
     }
 
-    public IDLDouble4 set3(double value) {
-        setValue(3, value);
-        return this;
+    /*
+      [-JNI;-NATIVE]
+      IDLDouble4* nativeObject = (IDLDouble4*)this_addr;
+      return nativeObject->getY();
+    */
+    public static native double internal_native_getY(long this_addr);
+
+    public double getZ() {
+        return internal_native_getZ(native_address);
     }
 
-    public double get0() {
-        return getValue(0);
+    /*
+      [-JNI;-NATIVE]
+      IDLDouble4* nativeObject = (IDLDouble4*)this_addr;
+      return nativeObject->getZ();
+    */
+    public static native double internal_native_getZ(long this_addr);
+
+    public double getW() {
+        return internal_native_getW(native_address);
     }
 
-    public double get1() {
-        return getValue(1);
-    }
-
-    public double get2() {
-        return getValue(2);
-    }
-
-    public double get3() {
-        return getValue(3);
-    }
-
-    @Override
-    public String toString() {
-        return get0() + ", " + get1() + ", " + get2() + ", " + get3();
-    }
+    /*
+      [-JNI;-NATIVE]
+      IDLDouble4* nativeObject = (IDLDouble4*)this_addr;
+      return nativeObject->getW();
+    */
+    public static native double internal_native_getW(long this_addr);
 }

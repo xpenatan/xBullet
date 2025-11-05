@@ -5,8 +5,6 @@
  *-------------------------------------------------------*/
 package gen.bullet;
 
-import java.util.Map;
-import java.util.HashMap;
 import com.github.xpenatan.jParser.idl.IDLEnum;
 
 public enum DebugDrawModes implements IDLEnum<DebugDrawModes> {
@@ -51,16 +49,6 @@ public enum DebugDrawModes implements IDLEnum<DebugDrawModes> {
 
     public DebugDrawModes getCustom() {
         return CUSTOM;
-    }
-
-    public static final Map<Integer, DebugDrawModes> MAP = new HashMap<>();
-
-    static {
-        for (DebugDrawModes value : values()) {
-            if (value != CUSTOM) {
-                MAP.put(value.value, value);
-            }
-        }
     }
 
     /*[-TEAVM;-NATIVE]

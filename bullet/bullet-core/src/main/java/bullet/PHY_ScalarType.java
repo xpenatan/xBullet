@@ -5,8 +5,6 @@
  *-------------------------------------------------------*/
 package bullet;
 
-import java.util.Map;
-import java.util.HashMap;
 import com.github.xpenatan.jParser.idl.IDLEnum;
 
 public enum PHY_ScalarType implements IDLEnum<PHY_ScalarType> {
@@ -39,16 +37,6 @@ public enum PHY_ScalarType implements IDLEnum<PHY_ScalarType> {
 
     public PHY_ScalarType getCustom() {
         return CUSTOM;
-    }
-
-    public static final Map<Integer, PHY_ScalarType> MAP = new HashMap<>();
-
-    static {
-        for (PHY_ScalarType value : values()) {
-            if (value != CUSTOM) {
-                MAP.put(value.value, value);
-            }
-        }
     }
 
     /*[-JNI;-NATIVE]
