@@ -81,9 +81,9 @@ jobs:
           distribution: "zulu"
           java-version: 17
 
-      - name: Set up MinGW
-        run: |
-          sudo apt install -y --force-yes mingw-w64 lib32z1
+#      - name: Set up MinGW
+#        run: |
+#          sudo apt install -y --force-yes mingw-w64 lib32z1
 
       - name: Install emscripten
         uses: mymindstorm/setup-emsdk@v14
@@ -124,9 +124,9 @@ jobs:
           distribution: "corretto"
           java-version: 17
 
-      - name: Set up MinGW
-        run: |
-          sudo apt install -y --force-yes mingw-w64 lib32z1
+#      - name: Set up MinGW
+#        run: |
+#          sudo apt install -y --force-yes mingw-w64 lib32z1
 
       - name: Install NDK
         id: setup-ndk
@@ -234,9 +234,9 @@ jobs:
           distribution: "corretto"
           java-version: 17
 
-      - name: Set up MinGW
-        run: |
-          sudo apt install -y --force-yes mingw-w64 lib32z1
+#      - name: Set up MinGW
+#        run: |
+#          sudo apt install -y --force-yes mingw-w64 lib32z1
 
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
